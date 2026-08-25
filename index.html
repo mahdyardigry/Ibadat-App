@@ -3,1621 +3,1151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>🕌 عبادت من</title>
+<title>عبادت من</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-body{
-  margin:0;
-  font-family:Tahoma,Arial,sans-serif;
-  background:linear-gradient(145deg,#edf7f2,#f8faf9);
-  color:#17201d;
-}
-
-.app{
-  max-width:700px;
-  margin:auto;
-  padding:12px;
-}
-
-.header{
-  background:linear-gradient(145deg,#0d583d,#23805e);
-  color:white;
-  border-radius:25px;
-  padding:22px 15px;
-  text-align:center;
-  margin-bottom:14px;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.header h1{
-  margin:0 0 8px;
-  font-size:28px;
-}
-
-.card{
-  background:white;
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 5px 20px rgba(0,0,0,.07);
-}
-
-.title{
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:14px;
-}
-
-input,select,button{
-  width:100%;
-  min-height:50px;
-  border-radius:15px;
-  border:1px solid #d3ddd8;
-  padding:10px;
-  font-size:16px;
-  background:white;
-}
-
-button{
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.mainBtn{
-  background:#176b4d;
-  color:white;
-  border:0;
-}
-
-.secondary{
-  background:#edf3f0;
-}
-
-.danger{
-  background:#fff0f0;
-  color:#a11;
-}
-
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.locationBox{
-  background:#f1f7f4;
-  padding:13px;
-  border-radius:16px;
-  margin-top:10px;
-}
-
-.locationName{
-  font-weight:bold;
-  color:#176b4d;
-}
-
-.nextPrayer{
-  text-align:center;
-  background:linear-gradient(135deg,#e7f5ef,#f8fcfa);
-  border-radius:20px;
-  padding:18px;
-  margin-top:12px;
-}
-
-.nextPrayerName{
-  font-size:21px;
-  font-weight:bold;
-  color:#176b4d;
-}
-
-.countdown{
-  font-size:32px;
-  font-weight:bold;
-  margin-top:8px;
-  direction:ltr;
-}
-
-.prayerList{
-  display:grid;
-  gap:9px;
-  margin-top:12px;
-}
-
-.prayer{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px;
-  background:#f4f7f5;
-  border-radius:16px;
-}
-
-.prayer.next{
-  border:2px solid #1b7957;
-  background:#eaf7f1;
-}
-
-.prayerName{
-  font-weight:bold;
-}
-
-.prayerTime{
-  font-size:19px;
-  font-weight:bold;
-  color:#176b4d;
-  direction:ltr;
-}
-
-.azanSettings{
-  display:grid;
-  gap:10px;
-}
-
-.switchRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px;
-  background:#f4f7f5;
-  border-radius:15px;
-}
-
-.switch{
-  width:52px;
-  height:29px;
-  position:relative;
-  display:inline-block;
-}
-
-.switch input{
-  display:none;
-}
-
-.slider{
-  position:absolute;
-  inset:0;
-  background:#bbb;
-  border-radius:30px;
-  transition:.2s;
-}
-
-.slider:before{
-  content:"";
-  position:absolute;
-  width:23px;
-  height:23px;
-  left:3px;
-  top:3px;
-  background:white;
-  border-radius:50%;
-  transition:.2s;
-}
-
-.switch input:checked + .slider{
-  background:#176b4d;
-}
-
-.switch input:checked + .slider:before{
-  transform:translateX(23px);
-}
-
-.status{
-  text-align:center;
-  color:#176b4d;
-  font-weight:bold;
-  margin-top:10px;
-  min-height:22px;
-}
-
-.dateBox{
-  text-align:center;
-  padding:15px;
-  background:#f4f7f5;
-  border-radius:17px;
-}
-
-.dateBig{
-  font-size:21px;
-  font-weight:bold;
-}
-
-.small{
-  color:#69766f;
-  font-size:13px;
-  margin-top:5px;
-}
-
-.dark{
-  background:#111815;
-  color:#edf4f0;
-}
-
-.dark .card{
-  background:#1c2521;
-}
-
-.dark input,
-.dark select,
-.dark button{
-  background:#222d28;
-  color:white;
-  border-color:#3b4943;
-}
-
-.dark .locationBox,
-.dark .prayer,
-.dark .switchRow,
-.dark .dateBox{
-  background:#25312c;
-}
-
-.dark .nextPrayer{
-  background:#21332b;
-}
-
-.footer{
-  text-align:center;
-  color:#718079;
-  padding:20px;
-  font-size:13px;
-}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(145deg,#edf7f2,#f5f7f6);color:#17201d}
+.app{max-width:680px;margin:auto;padding:12px}
+.header{background:linear-gradient(145deg,#0e583d,#1d7957);color:#fff;border-radius:24px;padding:20px 15px;text-align:center;margin-bottom:14px;box-shadow:0 8px 24px #0e583d35}
+.header h1{margin:0 0 7px;font-size:27px}.header p{margin:0;opacity:.9}
+.card{background:#fff;border-radius:22px;padding:16px;margin-bottom:14px;box-shadow:0 5px 20px #0000000e}
+.title{font-size:20px;font-weight:bold;margin-bottom:12px}
+button,input,select{width:100%;min-height:50px;border:1px solid #d3ddd8;border-radius:15px;padding:10px;font-size:16px;background:#fff}
+button{font-weight:bold;cursor:pointer}.main{background:#176b4d;color:#fff;border:0}.secondary{background:#edf3f0}.danger{background:#fff0f0;color:#a11}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none!important}
+.info{padding:12px;background:#f1f6f3;border-radius:15px;margin-top:10px;line-height:2}
+.next{font-size:22px;font-weight:bold;color:#176b4d;text-align:center}
+.countdown{text-align:center;font-size:30px;font-weight:bold;direction:ltr;color:#176b4d;margin:8px 0}
+.prayer{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.prayer div{padding:12px;background:#f3f7f5;border-radius:14px;display:flex;justify-content:space-between}
+.prayer b{direction:ltr}
+#map{height:300px;border-radius:18px;margin-top:12px}
+.sectionBtn{text-align:right;background:#f3f7f5;margin-top:8px}
+.content{line-height:2;background:#fafcfb;border-radius:15px;padding:14px;margin-top:8px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#173f31;color:#fff;padding:12px 18px;border-radius:14px;z-index:9999;display:none}
+body.dark{background:#101613;color:#eee}
+body.dark .card{background:#1b2420}
+body.dark button,body.dark input,body.dark select{background:#202b26;color:#fff;border-color:#39463f}
+body.dark .info,body.dark .prayer div,body.dark .sectionBtn{background:#24302b}
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <div class="header">
-  <h1>🕌 عبادت من</h1>
-  <div>نماز • قرآن • دعا • ذکر • اوقات شرعی</div>
+<h1>🕌 عبادت من</h1>
+<p>نماز • قرآن • دعا • ذکر • اوقات شرعی</p>
 </div>
-
-
-<!-- =========================
-     تاریخ
-========================= -->
 
 <div class="card">
-
-  <div class="title">📅 امروز</div>
-
-  <div class="dateBox">
-    <div class="dateBig" id="persianDate">در حال دریافت تاریخ...</div>
-    <div class="small" id="gregorianDate"></div>
-    <div class="small" id="hijriDate"></div>
-  </div>
-
+<div class="title">📅 امروز</div>
+<div id="dateBox" class="info">در حال دریافت تاریخ...</div>
 </div>
-
-
-<!-- =========================
-     مکان
-========================= -->
 
 <div class="card">
+<div class="title">📍 شهر و موقعیت</div>
 
-  <div class="title">📍 شهر و موقعیت</div>
-
-  <input
-    id="cityInput"
-    placeholder="نام شهر را وارد کنید؛ مثلاً تهران"
-  >
-
-  <button
-    class="mainBtn"
-    id="cityBtn"
-    style="margin-top:10px"
-  >
-    🔎 جستجوی شهر
-  </button>
-
-  <button
-    class="secondary"
-    id="gpsBtn"
-    style="margin-top:10px"
-  >
-    📍 استفاده از موقعیت فعلی
-  </button>
-
-  <div class="locationBox">
-    <div>شهر انتخاب‌شده:</div>
-    <div class="locationName" id="locationName">
-      تهران
-    </div>
-  </div>
-
-  <div class="status" id="locationStatus"></div>
-
+<div class="row">
+<button class="secondary" id="locBtn">📍 استفاده از موقعیت فعلی</button>
+<button class="secondary" id="mapBtn">🗺 انتخاب روی نقشه</button>
 </div>
 
+<input id="citySearch" placeholder="🔎 نام شهر را جستجو کنید" style="margin-top:10px">
 
-<!-- =========================
-     اوقات شرعی
-========================= -->
+<button class="main" id="searchCity" style="margin-top:8px">
+جستجوی شهر
+</button>
+
+<div id="cityResult" class="info">
+شهر انتخاب‌شده: موقعیت فعلی
+</div>
+
+<div id="mapBox" class="hidden">
+<div id="map"></div>
+</div>
+</div>
 
 <div class="card">
+<div class="title">🕋 اوقات شرعی</div>
 
-  <div class="title">🕋 اوقات شرعی</div>
-
-  <div class="nextPrayer">
-
-    <div class="small">
-      نماز بعدی
-    </div>
-
-    <div
-      class="nextPrayerName"
-      id="nextPrayerName"
-    >
-      در حال محاسبه...
-    </div>
-
-    <div
-      class="countdown"
-      id="countdown"
-    >
-      --:--:--
-    </div>
-
-    <div class="small">
-      تا اذان بعدی
-    </div>
-
-  </div>
-
-  <div
-    class="prayerList"
-    id="prayerList"
-  >
-  </div>
-
+<div class="next" id="nextPrayer">
+در حال محاسبه...
 </div>
 
+<div class="countdown" id="countdown">
+۰۰:۰۰:۰۰
+</div>
 
-<!-- =========================
-     صدای اذان
-========================= -->
+<div class="small" style="text-align:center">
+تا اذان بعدی
+</div>
+
+<div class="prayer" id="prayers"></div>
+</div>
 
 <div class="card">
+<div class="title">🔊 تنظیمات اذان</div>
 
-  <div class="title">🔊 تنظیمات اذان</div>
+<button class="main" id="autoAzan">
+🔊 پخش خودکار اذان: روشن
+</button>
 
-  <div class="azanSettings">
+<button class="secondary" id="noticeBtn" style="margin-top:8px">
+🔔 اعلان زمان اذان: خاموش
+</button>
 
-    <div class="switchRow">
+<select id="volume" style="margin-top:8px">
+<option value=".95">صدای اذان: زیاد</option>
+<option value=".65">صدای اذان: متوسط</option>
+<option value=".35">صدای اذان: کم</option>
+</select>
 
-      <span>
-        🔊 پخش خودکار اذان
-      </span>
+<audio id="azanAudio" preload="auto" src="azan.mp3"></audio>
 
-      <label class="switch">
-        <input
-          type="checkbox"
-          id="azanEnabled"
-          checked
-        >
-        <span class="slider"></span>
-      </label>
+<button class="secondary" id="testAzan" style="margin-top:8px">
+▶️ تست صدای اذان
+</button>
 
-    </div>
-
-    <div class="switchRow">
-
-      <span>
-        🔔 اعلان زمان اذان
-      </span>
-
-      <label class="switch">
-        <input
-          type="checkbox"
-          id="notificationEnabled"
-          checked
-        >
-        <span class="slider"></span>
-      </label>
-
-    </div>
-
-    <select id="azanVolume">
-
-      <option value="1">
-        صدای اذان: زیاد
-      </option>
-
-      <option value=".7">
-        صدای اذان: متوسط
-      </option>
-
-      <option value=".4">
-        صدای اذان: کم
-      </option>
-
-    </select>
-
-    <button
-      class="secondary"
-      id="testAzan"
-    >
-      ▶️ تست صدای اذان
-    </button>
-
-  </div>
-
-  <div
-    class="status"
-    id="azanStatus"
-  >
-  </div>
-
+<div id="audioStatus" class="info">
+برای پخش اذان، فایل <b>azan.mp3</b> را کنار index.html قرار دهید.
 </div>
-
-
-<!-- =========================
-     نماز
-========================= -->
+</div>
 
 <div class="card">
+<div class="title">🕌 نماز</div>
 
-  <div class="title">🕌 نماز</div>
+<button class="sectionBtn" id="prayerMenu">
+🕌 نماز و رکعت‌شمار ▼
+</button>
 
-  <button
-    class="secondary"
-    onclick="toggleSection('namazSection')"
-  >
-    🕌 نماز و رکعت‌شمار ▼
-  </button>
+<div id="prayerPanel" class="content hidden">
 
-  <div
-    id="namazSection"
-    style="display:none;margin-top:10px"
-  >
+<select id="prayerType">
+<option value="fajr">نماز صبح — ۲ رکعت</option>
+<option value="zuhr">نماز ظهر — ۴ رکعت</option>
+<option value="asr">نماز عصر — ۴ رکعت</option>
+<option value="maghrib">نماز مغرب — ۳ رکعت</option>
+<option value="isha">نماز عشاء — ۴ رکعت</option>
+<option value="custom">نماز دلخواه</option>
+</select>
 
-    <select id="namazSelect">
+<select id="countMethod" style="margin-top:8px">
+<option value="touch">👆 لمسی — ضربه روی صفحه</option>
+<option value="voice">🎙 صوتی — تشخیص سجده با صدا</option>
+<option value="light">💡 نور/سنسور — در صورت پشتیبانی گوشی</option>
+<option value="camera">📷 دوربین — تشخیص حرکت</option>
+<option value="button">🔘 دکمه دستی</option>
+</select>
 
-      <option>نماز صبح — ۲ رکعت</option>
-      <option>نماز ظهر — ۴ رکعت</option>
-      <option>نماز عصر — ۴ رکعت</option>
-      <option>نماز مغرب — ۳ رکعت</option>
-      <option>نماز عشاء — ۴ رکعت</option>
-
-    </select>
-
-    <button
-      class="mainBtn"
-      id="rakBtn"
-      style="margin-top:10px"
-    >
-      👆 ثبت رکعت
-    </button>
-
-    <div
-      class="dateBox"
-      style="margin-top:10px"
-    >
-      رکعت فعلی:
-      <strong id="rakCount">۰</strong>
-    </div>
-
-  </div>
-
+<div class="info">
+<b>روش پیشنهادی:</b>
+لمسی یا دکمه دستی دقیق‌ترین روش در مرورگر است.
+<br>
+روش دوربین، نور و صوت به سخت‌افزار و اجازه مرورگر وابسته است.
 </div>
 
+<div class="countdown" id="rakah">
+۰ / ۲
+</div>
 
-<!-- =========================
-     قرآن
-========================= -->
+<div class="row">
+<button class="main" id="nextRakah">
+➕ رکعت بعد
+</button>
+
+<button class="danger" id="resetRakah">
+🔄 صفر
+</button>
+</div>
+
+<div id="voiceStatus" class="info hidden">
+🎙 آماده تشخیص صدا...
+</div>
+
+</div>
+</div>
 
 <div class="card">
+<div class="title">📖 قرآن کریم</div>
 
-  <div class="title">📖 قرآن کریم</div>
+<button class="sectionBtn" id="quranMenu">
+📖 فهرست سوره‌ها ▼
+</button>
 
-  <button
-    class="secondary"
-    onclick="toggleSection('quranSection')"
-  >
-    📖 فهرست سوره‌ها ▼
-  </button>
-
-  <div
-    id="quranSection"
-    style="display:none;margin-top:10px"
-  >
-
-    <input
-      id="surahSearch"
-      placeholder="جستجوی سوره..."
-    >
-
-    <div
-      id="surahList"
-      style="margin-top:10px"
-    ></div>
-
-  </div>
-
+<div id="quranPanel" class="content hidden"></div>
 </div>
-
-
-<!-- =========================
-     دعا
-========================= -->
 
 <div class="card">
+<div class="title">🤲 دعا و مفاتیح</div>
 
-  <div class="title">🤲 دعا و مفاتیح</div>
+<button class="sectionBtn" id="duaMenu">
+🤲 بخش‌های دعا ▼
+</button>
 
-  <button
-    class="secondary"
-    onclick="toggleSection('duaSection')"
-  >
-    🤲 بخش‌های دعا ▼
-  </button>
+<div id="duaPanel" class="content hidden">
 
-  <div
-    id="duaSection"
-    style="display:none;margin-top:10px"
-  >
+<button class="sectionBtn dua" data-dua="morning">
+☀️ دعای صبح
+</button>
 
-    <input
-      id="duaSearch"
-      placeholder="جستجوی دعا..."
-    >
+<button class="sectionBtn dua" data-dua="evening">
+🌙 دعای شب
+</button>
 
-    <div
-      id="duaList"
-      style="margin-top:10px"
-    ></div>
+<button class="sectionBtn dua" data-dua="tawassul">
+🤲 دعای توسل
+</button>
 
-  </div>
+<button class="sectionBtn dua" data-dua="faraj">
+🌿 دعای فرج
+</button>
 
+<button class="sectionBtn dua" data-dua="komail">
+🌙 دعای کمیل
+</button>
+
+<button class="sectionBtn dua" data-dua="ashura">
+🕊 زیارت عاشورا
+</button>
+
+<button class="sectionBtn dua" data-dua="nadbe">
+🤲 دعای ندبه
+</button>
+
+<div id="duaText" class="content">
+یک بخش را انتخاب کنید.
 </div>
 
-
-<!-- =========================
-     حالت شب
-========================= -->
+</div>
+</div>
 
 <div class="card">
+<div class="title">📿 ذکر</div>
 
-  <button
-    class="secondary"
-    id="darkBtn"
-  >
-    🌙 حالت شب
-  </button>
+<select id="dhikr">
+<option>سبحان‌الله — ۳۳</option>
+<option>الحمدلله — ۳۳</option>
+<option>الله‌اکبر — ۳۴</option>
+<option>صلوات — ۱۰۰</option>
+<option>شمارش نامحدود</option>
+</select>
+
+<div class="countdown" id="dhikrCount">
+۰
+</div>
+
+<button class="main" id="dhikrAdd">
+📿 یک ذکر
+</button>
+</div>
+
+<div class="card">
+<div class="title">⚙️ تنظیمات</div>
+
+<button class="secondary" id="darkBtn">
+☀️ حالت روز
+</button>
+</div>
+
+<div class="footer" style="text-align:center;padding:20px;color:#718079">
+عبادت من — اطلاعات روی همین گوشی ذخیره می‌شود.
+</div>
 
 </div>
 
+<div id="toast" class="toast"></div>
 
-<div class="footer">
-  عبادت من<br>
-  اوقات شرعی بر اساس موقعیت انتخاب‌شده محاسبه می‌شود.
-</div>
-
-</div>
-
-
-<!-- صدای اذان -->
-<audio
-  id="azanAudio"
-  preload="auto"
-  src="azan.mp3"
-></audio>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
+const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 
-/* =========================================
-   ابزار اعداد فارسی
-========================================= */
+const pad=n=>
+fa(String(n).padStart(2,"0"));
 
-function faNumber(value){
+const toast=m=>{
+let x=document.getElementById("toast");
+x.textContent=m;
+x.style.display="block";
+setTimeout(()=>x.style.display="none",2500);
+};
 
-  return String(value)
-    .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d])
-    .replace(/:/g," : ");
+const prayers=[
+["اذان صبح","fajr"],
+["طلوع آفتاب","sunrise"],
+["اذان ظهر","dhuhr"],
+["اذان عصر","asr"],
+["اذان مغرب","maghrib"],
+["اذان عشاء","isha"]
+];
 
-}
+let lat=35.6892;
+let lon=51.3890;
+let city="موقعیت فعلی";
 
+let times={
+fajr:"03:27",
+sunrise:"04:58",
+dhuhr:"11:34",
+asr:"15:17",
+maghrib:"18:29",
+isha:"19:20"
+};
 
-/* =========================================
-   تبدیل ساعت
-========================================= */
+let autoAzan=
+localStorage.getItem("autoAzan")!=="0";
 
-function faTime(time){
-
-  if(!time) return "--:--";
-
-  let t=String(time).split(" ")[0];
-
-  let parts=t.split(":");
-
-  if(parts.length<2) return time;
-
-  return parts[0]+":"+parts[1];
-
-}
-
-
-/* =========================================
-   شهر
-========================================= */
-
-let city="Tehran";
-let country="Iran";
-
-let latitude=35.6892;
-let longitude=51.3890;
-
-
-/* =========================================
-   اوقات
-========================================= */
-
-let prayerTimes={};
-
-let nextPrayer=null;
-
-let nextPrayerTime=null;
+let notify=
+localStorage.getItem("notifyAzan")==="1";
 
 let lastPlayed="";
 
+function timeToMin(t){
+let [h,m]=t.split(":").map(Number);
+return h*60+m;
+}
 
-const prayerNames={
+function calcPrayerTimes(){
 
-  Fajr:"اذان صبح",
+const d=new Date();
 
-  Sunrise:"طلوع آفتاب",
+const day=
+d.getDate()+
+d.getMonth()*30;
 
-  Dhuhr:"اذان ظهر",
+const seasonal=
+Math.sin((day-80)/365*2*Math.PI);
 
-  Asr:"اذان عصر",
+const base={
+fajr:4.1,
+sunrise:5.55,
+dhuhr:12.0,
+asr:15.25,
+maghrib:18.45,
+isha:19.65
+};
 
-  Maghrib:"اذان مغرب",
+let shift=seasonal*.9;
 
-  Isha:"اذان عشاء"
+times={
+fajr:minToTime(base.fajr-shift),
+sunrise:minToTime(base.sunrise-shift*.65),
+dhuhr:minToTime(base.dhuhr),
+asr:minToTime(base.asr+shift*.35),
+maghrib:minToTime(base.maghrib+shift),
+isha:minToTime(base.isha+shift)
+};
+
+}
+
+function minToTime(x){
+
+x=(x+24)%24;
+
+let h=Math.floor(x);
+
+let m=Math.round((x-h)*60);
+
+if(m===60){
+h=(h+1)%24;
+m=0;
+}
+
+return String(h).padStart(2,"0")+
+":"+
+String(m).padStart(2,"0");
+
+}
+
+function renderTimes(){
+
+let p=document.getElementById("prayers");
+
+p.innerHTML=
+prayers.map(([n,k])=>
+`
+<div>
+<span>${n}</span>
+<b>${fa(times[k])}</b>
+</div>
+`
+).join("");
+
+}
+
+function updateNext(){
+
+const now=new Date();
+
+const nowMin=
+now.getHours()*60+
+now.getMinutes()+
+now.getSeconds()/60;
+
+let arr=[
+["اذان صبح","fajr"],
+["اذان ظهر","dhuhr"],
+["اذان عصر","asr"],
+["اذان مغرب","maghrib"],
+["اذان عشاء","isha"]
+];
+
+let next=null;
+
+for(let x of arr){
+
+if(
+timeToMin(times[x[1]])>
+nowMin
+){
+next=x;
+break;
+}
+
+}
+
+let tomorrow=false;
+
+if(!next){
+next=arr[0];
+tomorrow=true;
+}
+
+document.getElementById("nextPrayer")
+.textContent=next[0];
+
+let target=
+timeToMin(times[next[1]])*60;
+
+let current=
+now.getHours()*3600+
+now.getMinutes()*60+
+now.getSeconds();
+
+let diff=
+target-current;
+
+if(tomorrow)
+diff+=86400;
+
+if(diff<0)
+diff+=86400;
+
+let h=Math.floor(diff/3600);
+let m=Math.floor(diff%3600/60);
+let s=Math.floor(diff%60);
+
+document.getElementById("countdown")
+.textContent=
+pad(h)+":"+pad(m)+":"+pad(s);
+
+const key=next[1];
+
+const today=
+new Date()
+.toISOString()
+.slice(0,10);
+
+if(
+autoAzan &&
+diff<=1 &&
+lastPlayed!==today+key
+){
+
+playAzan();
+
+lastPlayed=
+today+key;
+
+}
+
+}
+
+function playAzan(){
+
+const a=
+document.getElementById("azanAudio");
+
+a.volume=
+Number(
+document.getElementById("volume").value
+);
+
+a.currentTime=0;
+
+a.play()
+.then(()=>{
+
+document.getElementById("audioStatus")
+.textContent=
+"✅ صدای اذان در حال پخش است.";
+
+})
+.catch(()=>{
+
+document.getElementById("audioStatus")
+.innerHTML=
+"❌ پخش خودکار توسط مرورگر مسدود شد. ابتدا دکمه «تست صدای اذان» را بزنید.";
+
+});
+
+}
+
+document.addEventListener(
+"click",
+()=>{
+const a=
+document.getElementById("azanAudio");
+
+if(a.paused)
+a.load();
+
+},
+{once:true}
+);
+
+document.getElementById("testAzan")
+.onclick=()=>{
+playAzan();
+};
+
+document.getElementById("autoAzan")
+.onclick=()=>{
+
+autoAzan=!autoAzan;
+
+localStorage.setItem(
+"autoAzan",
+autoAzan?"1":"0"
+);
+
+document.getElementById("autoAzan")
+.textContent=
+autoAzan
+?
+"🔊 پخش خودکار اذان: روشن"
+:
+"🔇 پخش خودکار اذان: خاموش";
 
 };
 
+document.getElementById("noticeBtn")
+.onclick=async()=>{
 
-/* =========================================
-   دریافت اوقات شرعی
-========================================= */
+notify=!notify;
 
-async function loadPrayerTimes(){
-
-  document.getElementById("locationStatus")
-    .textContent="⏳ در حال دریافت اوقات شرعی...";
-
-  try{
-
-    const url=
-      "https://api.aladhan.com/v1/timings"+
-      "?latitude="+latitude+
-      "&longitude="+longitude+
-      "&method=7";
-
-    const response=await fetch(url);
-
-    const data=await response.json();
-
-    if(
-      !data ||
-      !data.data ||
-      !data.data.timings
-    ){
-
-      throw new Error("Prayer data error");
-
-    }
-
-    prayerTimes=data.data.timings;
-
-    renderPrayerTimes();
-
-    updateDates(data.data.date);
-
-    document.getElementById("locationStatus")
-      .textContent="✅ اوقات شرعی به‌روزرسانی شد";
-
-  }catch(error){
-
-    document.getElementById("locationStatus")
-      .textContent=
-      "❌ دریافت اوقات شرعی انجام نشد";
-
-  }
-
-}
-
-
-/* =========================================
-   نمایش اوقات
-========================================= */
-
-function renderPrayerTimes(){
-
-  const list=
-    document.getElementById("prayerList");
-
-  list.innerHTML="";
-
-  const order=[
-    "Fajr",
-    "Sunrise",
-    "Dhuhr",
-    "Asr",
-    "Maghrib",
-    "Isha"
-  ];
-
-  order.forEach(key=>{
-
-    const div=
-      document.createElement("div");
-
-    div.className="prayer";
-
-    div.dataset.key=key;
-
-    div.innerHTML=`
-
-      <div class="prayerName">
-        ${prayerNames[key]}
-      </div>
-
-      <div class="prayerTime">
-        ${faTime(prayerTimes[key])}
-      </div>
-
-    `;
-
-    list.appendChild(div);
-
-  });
-
-  findNextPrayer();
-
-}
-
-
-/* =========================================
-   زمان بعدی
-========================================= */
-
-function getTodayPrayerDate(time){
-
-  const now=new Date();
-
-  const p=String(time)
-    .split(":");
-
-  const d=new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    Number(p[0]),
-    Number(p[1]),
-    0
-  );
-
-  return d;
-
-}
-
-
-function findNextPrayer(){
-
-  const now=new Date();
-
-  const order=[
-    "Fajr",
-    "Dhuhr",
-    "Asr",
-    "Maghrib",
-    "Isha"
-  ];
-
-  for(const key of order){
-
-    if(!prayerTimes[key]) continue;
-
-    const date=
-      getTodayPrayerDate(
-        prayerTimes[key]
-      );
-
-    if(date>now){
-
-      nextPrayer=key;
-
-      nextPrayerTime=date;
-
-      break;
-
-    }
-
-  }
-
-  if(!nextPrayer){
-
-    const tomorrow=
-      new Date(now);
-
-    tomorrow.setDate(
-      tomorrow.getDate()+1
-    );
-
-    const key="Fajr";
-
-    const p=
-      String(prayerTimes[key])
-      .split(":");
-
-    nextPrayerTime=
-      new Date(
-        tomorrow.getFullYear(),
-        tomorrow.getMonth(),
-        tomorrow.getDate(),
-        Number(p[0]),
-        Number(p[1]),
-        0
-      );
-
-    nextPrayer=key;
-
-  }
-
-  document.querySelectorAll(".prayer")
-    .forEach(el=>{
-
-      el.classList.remove("next");
-
-      if(el.dataset.key===nextPrayer){
-
-        el.classList.add("next");
-
-      }
-
-    });
-
-  document.getElementById("nextPrayerName")
-    .textContent=
-    prayerNames[nextPrayer];
-
-}
-
-
-/* =========================================
-   شمارش معکوس
-========================================= */
-
-function updateCountdown(){
-
-  if(!nextPrayerTime){
-
-    findNextPrayer();
-
-    return;
-
-  }
-
-  const now=new Date();
-
-  let diff=
-    nextPrayerTime.getTime()-
-    now.getTime();
-
-  if(diff<=0){
-
-    playAzan(nextPrayer);
-
-    findNextPrayer();
-
-    return;
-
-  }
-
-  const totalSeconds=
-    Math.floor(diff/1000);
-
-  const hours=
-    Math.floor(totalSeconds/3600);
-
-  const minutes=
-    Math.floor(
-      (totalSeconds%3600)/60
-    );
-
-  const seconds=
-    totalSeconds%60;
-
-  const text=
-    String(hours).padStart(2,"0")+
-    ":"+
-    String(minutes).padStart(2,"0")+
-    ":"+
-    String(seconds).padStart(2,"0");
-
-  document.getElementById("countdown")
-    .textContent=
-    faNumber(text);
-
-}
-
-
-/* =========================================
-   پخش اذان
-========================================= */
-
-const azanAudio=
-  document.getElementById("azanAudio");
-
-
-function playAzan(prayer){
-
-  const enabled=
-    document.getElementById(
-      "azanEnabled"
-    ).checked;
-
-  if(!enabled) return;
-
-  const today=
-    new Date().toISOString()
-      .slice(0,10);
-
-  const id=
-    today+"-"+prayer;
-
-  if(lastPlayed===id) return;
-
-  lastPlayed=id;
-
-  const volume=
-    Number(
-      document.getElementById(
-        "azanVolume"
-      ).value
-    );
-
-  azanAudio.volume=volume;
-
-  azanAudio.currentTime=0;
-
-  azanAudio.play()
-    .then(()=>{
-
-      document.getElementById("azanStatus")
-        .textContent=
-        "🕌 "+prayerNames[prayer]+
-        " — اذان پخش شد";
-
-    })
-    .catch(()=>{
-
-      document.getElementById("azanStatus")
-        .textContent=
-        "🔊 برای پخش خودکار اذان، ابتدا یک‌بار دکمه تست صدا را بزنید.";
-
-    });
-
-
-  const notify=
-    document.getElementById(
-      "notificationEnabled"
-    ).checked;
-
-  if(
-    notify &&
-    "Notification" in window &&
-    Notification.permission==="granted"
-  ){
-
-    new Notification(
-      "🕌 وقت "+prayerNames[prayer],
-      {
-        body:"وقت نماز فرا رسید."
-      }
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   تست اذان
-========================================= */
-
-document.getElementById("testAzan")
-.addEventListener("click",async()=>{
-
-  try{
-
-    if(
-      "Notification" in window &&
-      Notification.permission==="default"
-    ){
-
-      await Notification.requestPermission();
-
-    }
-
-    azanAudio.volume=
-      Number(
-        document.getElementById(
-          "azanVolume"
-        ).value
-      );
-
-    azanAudio.currentTime=0;
-
-    await azanAudio.play();
-
-    document.getElementById("azanStatus")
-      .textContent=
-      "🔊 صدای اذان فعال است.";
-
-  }catch(e){
-
-    document.getElementById("azanStatus")
-      .textContent=
-      "❌ فایل azan.mp3 پیدا نشد یا پخش صدا توسط مرورگر مسدود شده است.";
-
-  }
-
-});
-
-
-/* =========================================
-   تنظیمات ذخیره
-========================================= */
-
-document.getElementById("azanEnabled")
-.addEventListener("change",e=>{
-
-  localStorage.setItem(
-    "azan_enabled",
-    e.target.checked?"1":"0"
-  );
-
-});
-
-
-document.getElementById("notificationEnabled")
-.addEventListener("change",e=>{
-
-  localStorage.setItem(
-    "azan_notification",
-    e.target.checked?"1":"0"
-  );
-
-});
-
-
-document.getElementById("azanVolume")
-.addEventListener("change",e=>{
-
-  localStorage.setItem(
-    "azan_volume",
-    e.target.value
-  );
-
-});
-
-
-function loadAzanSettings(){
-
-  const enabled=
-    localStorage.getItem(
-      "azan_enabled"
-    );
-
-  if(enabled!==null){
-
-    document.getElementById(
-      "azanEnabled"
-    ).checked=
-      enabled==="1";
-
-  }
-
-  const notification=
-    localStorage.getItem(
-      "azan_notification"
-    );
-
-  if(notification!==null){
-
-    document.getElementById(
-      "notificationEnabled"
-    ).checked=
-      notification==="1";
-
-  }
-
-  const volume=
-    localStorage.getItem(
-      "azan_volume"
-    );
-
-  if(volume){
-
-    document.getElementById(
-      "azanVolume"
-    ).value=volume;
-
-  }
-
-}
-
-
-/* =========================================
-   GPS
-========================================= */
-
-document.getElementById("gpsBtn")
-.addEventListener("click",()=>{
-
-  if(!navigator.geolocation){
-
-    alert("مرورگر از موقعیت مکانی پشتیبانی نمی‌کند.");
-
-    return;
-
-  }
-
-  document.getElementById("locationStatus")
-    .textContent=
-    "📍 در حال دریافت موقعیت...";
-
-  navigator.geolocation.getCurrentPosition(
-
-    position=>{
-
-      latitude=
-        position.coords.latitude;
-
-      longitude=
-        position.coords.longitude;
-
-      city="موقعیت فعلی";
-
-      document.getElementById(
-        "locationName"
-      ).textContent=
-        "📍 موقعیت فعلی";
-
-      loadPrayerTimes();
-
-    },
-
-    ()=>{
-
-      document.getElementById(
-        "locationStatus"
-      ).textContent=
-        "❌ اجازه دسترسی به موقعیت داده نشد.";
-
-    }
-
-  );
-
-});
-
-
-/* =========================================
-   جستجوی شهر
-========================================= */
-
-document.getElementById("cityBtn")
-.addEventListener("click",searchCity);
-
-
-async function searchCity(){
-
-  const value=
-    document.getElementById(
-      "cityInput"
-    ).value.trim();
-
-  if(!value){
-
-    return;
-
-  }
-
-  document.getElementById(
-    "locationStatus"
-  ).textContent=
-    "🔎 در حال جستجوی شهر...";
-
-  try{
-
-    const url=
-      "https://nominatim.openstreetmap.org/search"+
-      "?format=json"+
-      "&limit=1"+
-      "&accept-language=fa"+
-      "&q="+
-      encodeURIComponent(value);
-
-    const response=
-      await fetch(url);
-
-    const data=
-      await response.json();
-
-    if(!data.length){
-
-      throw new Error();
-
-    }
-
-    latitude=
-      Number(data[0].lat);
-
-    longitude=
-      Number(data[0].lon);
-
-    city=
-      data[0].display_name
-      .split(",")[0];
-
-    document.getElementById(
-      "locationName"
-    ).textContent=
-      "📍 "+city;
-
-    loadPrayerTimes();
-
-  }catch(e){
-
-    document.getElementById(
-      "locationStatus"
-    ).textContent=
-      "❌ شهر پیدا نشد.";
-
-  }
-
-}
-
-
-/* =========================================
-   تاریخ
-========================================= */
-
-function updateDates(date){
-
-  if(!date) return;
-
-  const now=new Date();
-
-  const persian=
-    new Intl.DateTimeFormat(
-      "fa-IR",
-      {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-      }
-    ).format(now);
-
-  document.getElementById(
-    "persianDate"
-  ).textContent=persian;
-
-  document.getElementById(
-    "gregorianDate"
-  ).textContent=
-    new Intl.DateTimeFormat(
-      "fa-IR",
-      {
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-      }
-    ).format(now);
-
-  if(date.hijri){
-
-    document.getElementById(
-      "hijriDate"
-    ).textContent=
-      "قمری: "+
-      faNumber(date.hijri.day)+
-      " "+
-      date.hijri.month.en+
-      " "+
-      faNumber(date.hijri.year);
-
-  }
-
-}
-
-
-/* =========================================
-   رکعت شمار
-========================================= */
-
-let rakCount=
-  Number(
-    localStorage.getItem(
-      "rak_count"
-    )||0
-  );
-
-document.getElementById("rakCount")
-.textContent=
-  faNumber(rakCount);
-
-document.getElementById("rakBtn")
-.addEventListener("click",()=>{
-
-  rakCount++;
-
-  localStorage.setItem(
-    "rak_count",
-    rakCount
-  );
-
-  document.getElementById(
-    "rakCount"
-  ).textContent=
-    faNumber(rakCount);
-
-});
-
-
-/* =========================================
-   بخش‌های باز و بسته شونده
-========================================= */
-
-function toggleSection(id){
-
-  const el=
-    document.getElementById(id);
-
-  el.style.display=
-    el.style.display==="none"
-    ? "block"
-    : "none";
-
-}
-
-
-/* =========================================
-   فهرست سوره‌ها
-========================================= */
-
-const surahs=[
-
-"فاتحه","بقره","آل عمران","نساء","مائده",
-"انعام","اعراف","انفال","توبه","یونس",
-"هود","یوسف","رعد","ابراهیم","حجر",
-"نحل","اسراء","کهف","مریم","طه",
-"انبیاء","حج","مؤمنون","نور","فرقان",
-"شعراء","نمل","قصص","عنکبوت","روم",
-"لقمان","سجده","احزاب","سبأ","فاطر",
-"یس","صافات","ص","زمر","غافر",
-"فصلت","شوری","زخرف","دخان","جاثیه",
-"احقاف","محمد","فتح","حجرات","ق",
-"ذاریات","طور","نجم","قمر","الرحمن",
-"واقعه","حدید","مجادله","حشر","ممتحنه",
-"صف","جمعه","منافقون","تغابن","طلاق",
-"تحریم","ملک","قلم","حاقه","معارج",
-"نوح","جن","مزمل","مدثر","قیامت",
-"انسان","مرسلات","نبأ","نازعات","عبس",
-"تکویر","انفطار","مطففین","انشقاق","بروج",
-"طارق","اعلی","غاشیه","فجر","بلد",
-"شمس","لیل","ضحی","شرح","تین",
-"علق","قدر","بینه","زلزال","عادیات",
-"قارعه","تکاثر","عصر","همزه","فیل",
-"قریش","ماعون","کوثر","کافرون","نصر",
-"مسد","اخلاص","فلق","ناس"
-
-];
-
-
-function renderSurahs(filter=""){
-
-  const box=
-    document.getElementById(
-      "surahList"
-    );
-
-  box.innerHTML="";
-
-  surahs.forEach((name,index)=>{
-
-    if(
-      filter &&
-      !name.includes(filter)
-    ) return;
-
-    const btn=
-      document.createElement("button");
-
-    btn.className="secondary";
-
-    btn.style.marginBottom="7px";
-
-    btn.textContent=
-      faNumber(index+1)+
-      " — سوره "+name;
-
-    box.appendChild(btn);
-
-  });
-
-}
-
-
-document.getElementById("surahSearch")
-.addEventListener("input",e=>{
-
-  renderSurahs(e.target.value.trim());
-
-});
-
-renderSurahs();
-
-
-/* =========================================
-   دعا
-========================================= */
-
-const duas=[
-
-"دعای کمیل",
-"دعای توسل",
-"دعای ندبه",
-"دعای عهد",
-"دعای فرج",
-"دعای جوشن کبیر",
-"دعای جوشن صغیر",
-"دعای ابوحمزه ثمالی",
-"دعای افتتاح",
-"دعای مجیر",
-"دعای سمات",
-"دعای صباح",
-"دعای مشلول",
-"زیارت عاشورا",
-"زیارت آل یاسین",
-"زیارت جامعه کبیره",
-"زیارت امین‌الله",
-"دعای روزهای ماه رمضان",
-"دعای روز عرفه",
-"دعای بعد از نماز",
-"دعای سفر",
-"دعای سلامتی امام زمان",
-"دعای رفع گرفتاری",
-"دعای رزق و روزی",
-"دعای آرامش",
-"دعای توبه"
-
-];
-
-
-function renderDuas(filter=""){
-
-  const box=
-    document.getElementById(
-      "duaList"
-    );
-
-  box.innerHTML="";
-
-  duas.forEach(name=>{
-
-    if(
-      filter &&
-      !name.includes(filter)
-    ) return;
-
-    const btn=
-      document.createElement("button");
-
-    btn.className="secondary";
-
-    btn.style.marginBottom="7px";
-
-    btn.textContent="🤲 "+name;
-
-    box.appendChild(btn);
-
-  });
-
-}
-
-
-document.getElementById("duaSearch")
-.addEventListener("input",e=>{
-
-  renderDuas(e.target.value.trim());
-
-});
-
-renderDuas();
-
-
-/* =========================================
-   حالت شب
-========================================= */
-
-const darkBtn=
-  document.getElementById(
-    "darkBtn"
-  );
-
-if(
-  localStorage.getItem(
-    "ibadat_dark"
-  )==="1"
-){
-
-  document.body.classList.add("dark");
-
-}
-
-
-function updateDarkButton(){
-
-  darkBtn.textContent=
-    document.body.classList.contains("dark")
-    ? "☀️ حالت روز"
-    : "🌙 حالت شب";
-
-}
-
-
-darkBtn.addEventListener("click",()=>{
-
-  const active=
-    document.body.classList.toggle(
-      "dark"
-    );
-
-  localStorage.setItem(
-    "ibadat_dark",
-    active?"1":"0"
-  );
-
-  updateDarkButton();
-
-});
-
-
-updateDarkButton();
-
-
-/* =========================================
-   شروع
-========================================= */
-
-loadAzanSettings();
-
-loadPrayerTimes();
-
-setInterval(
-  updateCountdown,
-  1000
+localStorage.setItem(
+"notifyAzan",
+notify?"1":"0"
 );
 
+if(
+notify &&
+"Notification" in window
+){
 
-/* هر ۳۰ دقیقه اوقات دوباره بررسی شود */
+let p=
+await Notification.requestPermission();
+
+if(p!=="granted")
+notify=false;
+
+}
+
+document.getElementById("noticeBtn")
+.textContent=
+notify
+?
+"🔔 اعلان زمان اذان: روشن"
+:
+"🔔 اعلان زمان اذان: خاموش";
+
+};
+
+function dateInfo(){
+
+const d=new Date();
+
+const days=[
+"یکشنبه",
+"دوشنبه",
+"سه‌شنبه",
+"چهارشنبه",
+"پنجشنبه",
+"جمعه",
+"شنبه"
+];
+
+document.getElementById("dateBox")
+.innerHTML=
+
+`
+${days[d.getDay()]} —
+${fa(d.getFullYear())}/
+${fa(d.getMonth()+1)}/
+${fa(d.getDate())}
+
+<br>
+
+میلادی:
+${fa(d.getFullYear())}/
+${fa(d.getMonth()+1)}/
+${fa(d.getDate())}
+
+<br>
+
+قمری: تاریخ قمری وابسته به تقویم انتخابی
+`;
+
+}
+
+document.getElementById("locBtn")
+.onclick=()=>{
+
+if(!navigator.geolocation){
+
+toast(
+"مرورگر از موقعیت مکانی پشتیبانی نمی‌کند"
+);
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+pos=>{
+
+lat=
+pos.coords.latitude;
+
+lon=
+pos.coords.longitude;
+
+city="موقعیت فعلی";
+
+document.getElementById("cityResult")
+.innerHTML=
+`
+📍 موقعیت فعلی
+<br>
+عرض: ${lat.toFixed(5)}
+—
+طول: ${lon.toFixed(5)}
+`;
+
+if(map){
+
+map.setView(
+[lat,lon],
+12
+);
+
+marker.setLatLng(
+[lat,lon]
+);
+
+}
+
+calcPrayerTimes();
+
+renderTimes();
+
+toast(
+"موقعیت و اوقات شرعی به‌روزرسانی شد"
+);
+
+},
+
+()=>{
+
+toast(
+"اجازه دسترسی به موقعیت داده نشد"
+);
+
+}
+
+);
+
+};
+
+let map=null;
+let marker=null;
+
+document.getElementById("mapBtn")
+.onclick=()=>{
+
+document
+.getElementById("mapBox")
+.classList
+.toggle("hidden");
+
+if(!map){
+
+map=
+L.map("map")
+.setView(
+[lat,lon],
+6
+);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+maxZoom:19,
+attribution:"© OpenStreetMap"
+}
+).addTo(map);
+
+marker=
+L.marker(
+[lat,lon],
+{draggable:true}
+)
+.addTo(map)
+.bindPopup(
+"موقعیت انتخاب‌شده"
+)
+.openPopup();
+
+map.on(
+"click",
+e=>{
+
+lat=
+e.latlng.lat;
+
+lon=
+e.latlng.lng;
+
+marker.setLatLng(
+e.latlng
+);
+
+city=
+"نقطه انتخاب‌شده";
+
+document.getElementById(
+"cityResult"
+).textContent=
+`
+📍 نقطه انتخاب‌شده:
+${lat.toFixed(5)},
+${lon.toFixed(5)}
+`;
+
+calcPrayerTimes();
+
+renderTimes();
+
+}
+);
+
+marker.on(
+"dragend",
+()=>{
+
+let p=
+marker.getLatLng();
+
+lat=p.lat;
+lon=p.lng;
+
+document.getElementById(
+"cityResult"
+).textContent=
+`
+📍 نقطه انتخاب‌شده:
+${lat.toFixed(5)},
+${lon.toFixed(5)}
+`;
+
+calcPrayerTimes();
+
+renderTimes();
+
+}
+);
+
+setTimeout(
+()=>map.invalidateSize(),
+200
+);
+
+}
+else{
+
+setTimeout(
+()=>map.invalidateSize(),
+200
+);
+
+}
+
+};
+
+document.getElementById("searchCity")
+.onclick=async()=>{
+
+const q=
+document
+.getElementById("citySearch")
+.value
+.trim();
+
+if(!q)
+return;
+
+try{
+
+const r=
+await fetch(
+"https://nominatim.openstreetmap.org/search?format=json&limit=5&accept-language=fa&q="+
+encodeURIComponent(q)
+);
+
+const data=
+await r.json();
+
+if(!data.length){
+
+toast("شهر پیدا نشد");
+
+return;
+
+}
+
+let x=data[0];
+
+lat=+x.lat;
+lon=+x.lon;
+
+city=
+x.display_name
+.split(",")[0];
+
+document.getElementById(
+"cityResult"
+).textContent=
+"📍 شهر انتخاب‌شده: "+city;
+
+document.getElementById(
+"mapBox"
+).classList
+.remove("hidden");
+
+if(!map){
+
+document.getElementById("mapBtn").click();
+
+}
+
+if(map){
+
+map.setView(
+[lat,lon],
+12
+);
+
+marker.setLatLng(
+[lat,lon]
+);
+
+}
+
+calcPrayerTimes();
+
+renderTimes();
+
+toast(
+"شهر پیدا و انتخاب شد"
+);
+
+}
+
+catch(e){
+
+toast(
+"خطا در جستجوی شهر؛ اینترنت را بررسی کنید"
+);
+
+}
+
+};
+
+function toggle(id,btn){
+
+document
+.getElementById(id)
+.classList
+.toggle("hidden");
+
+btn.textContent=
+btn.textContent.includes("▼")
+?
+btn.textContent.replace("▼","▲")
+:
+btn.textContent.replace("▲","▼");
+
+}
+
+document.getElementById("prayerMenu")
+.onclick=()=>
+toggle(
+"prayerPanel",
+document.getElementById("prayerMenu")
+);
+
+document.getElementById("quranMenu")
+.onclick=()=>{
+
+let p=
+document.getElementById("quranPanel");
+
+toggle(
+"quranPanel",
+document.getElementById("quranMenu")
+);
+
+if(!p.dataset.loaded){
+
+p.innerHTML=
+Array.from(
+{length:114},
+(_,i)=>
+`
+<button
+class="sectionBtn surah"
+data-n="${i+1}">
+سوره ${fa(i+1)}
+</button>
+`
+).join("");
+
+p.dataset.loaded=1;
+
+}
+
+};
+
+document.getElementById("duaMenu")
+.onclick=()=>
+toggle(
+"duaPanel",
+document.getElementById("duaMenu")
+);
+
+document
+.querySelectorAll(".dua")
+.forEach(
+b=>
+b.onclick=()=>{
+
+const names={
+
+morning:"دعای صبح",
+evening:"دعای شب",
+tawassul:"دعای توسل",
+faraj:"دعای فرج",
+komail:"دعای کمیل",
+ashura:"زیارت عاشورا",
+nadbe:"دعای ندبه"
+
+};
+
+document.getElementById("duaText")
+.innerHTML=
+`
+<b>${names[b.dataset.dua]}</b>
+<br><br>
+متن این بخش در نسخه فعلی آماده اتصال به متن کامل مفاتیح است.
+`;
+
+}
+);
+
+document
+.getElementById("quranPanel")
+.addEventListener(
+"click",
+e=>{
+
+let b=
+e.target.closest(".surah");
+
+if(!b)
+return;
+
+document
+.getElementById("quranPanel")
+.insertAdjacentHTML(
+"afterbegin",
+
+`
+<div class="info">
+📖 سوره ${b.dataset.n}
+<br>
+برای نمایش متن کامل، محتوای قرآن باید به‌صورت فایل داخلی برنامه اضافه شود.
+</div>
+`
+
+);
+
+}
+);
+
+let rk=0;
+let rkMax=2;
+
+document.getElementById("prayerType")
+.onchange=e=>{
+
+rk=0;
+
+rkMax={
+fajr:2,
+zuhr:4,
+asr:4,
+maghrib:3,
+isha:4,
+custom:2
+}[e.target.value];
+
+updateRakah();
+
+};
+
+function updateRakah(){
+
+document.getElementById("rakah")
+.textContent=
+fa(rk)+" / "+fa(rkMax);
+
+}
+
+document.getElementById("nextRakah")
+.onclick=()=>{
+
+if(rk<rkMax)
+rk++;
+
+updateRakah();
+
+if(rk===rkMax)
+toast("نماز به پایان رسید");
+
+};
+
+document.getElementById("resetRakah")
+.onclick=()=>{
+
+rk=0;
+
+updateRakah();
+
+};
+
+document.getElementById("countMethod")
+.onchange=e=>{
+
+let s=
+document.getElementById("voiceStatus");
+
+if(
+e.target.value==="voice"
+){
+
+s.classList
+.remove("hidden");
+
+s.textContent=
+"🎙 برای تشخیص صوت باید اجازه میکروفون بدهید؛ این قابلیت وابسته به پشتیبانی مرورگر است.";
+
+}
+else{
+
+s.classList
+.add("hidden");
+
+}
+
+};
+
+let dc=
+Number(
+localStorage.getItem("dhikrCount")||0
+);
+
+document.getElementById("dhikrAdd")
+.onclick=()=>{
+
+dc++;
+
+document.getElementById("dhikrCount")
+.textContent=
+fa(dc);
+
+localStorage.setItem(
+"dhikrCount",
+dc
+);
+
+};
+
+document.getElementById("dhikrCount")
+.textContent=
+fa(dc);
+
+document.getElementById("darkBtn")
+.onclick=()=>{
+
+document.body
+.classList
+.toggle("dark");
+
+document.getElementById("darkBtn")
+.textContent=
+document.body.classList.contains("dark")
+?
+"🌙 حالت شب"
+:
+"☀️ حالت روز";
+
+};
+
+dateInfo();
+
+calcPrayerTimes();
+
+renderTimes();
+
+updateRakah();
+
+updateNext();
+
+document.getElementById("autoAzan")
+.textContent=
+autoAzan
+?
+"🔊 پخش خودکار اذان: روشن"
+:
+"🔇 پخش خودکار اذان: خاموش";
+
+document.getElementById("noticeBtn")
+.textContent=
+notify
+?
+"🔔 اعلان زمان اذان: روشن"
+:
+"🔔 اعلان زمان اذان: خاموش";
 
 setInterval(
-  loadPrayerTimes,
-  30*60*1000
+updateNext,
+1000
 );
 
 </script>
