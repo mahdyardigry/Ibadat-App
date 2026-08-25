@@ -3,1151 +3,2205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
 <title>عبادت من</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(145deg,#edf7f2,#f5f7f6);color:#17201d}
-.app{max-width:680px;margin:auto;padding:12px}
-.header{background:linear-gradient(145deg,#0e583d,#1d7957);color:#fff;border-radius:24px;padding:20px 15px;text-align:center;margin-bottom:14px;box-shadow:0 8px 24px #0e583d35}
-.header h1{margin:0 0 7px;font-size:27px}.header p{margin:0;opacity:.9}
-.card{background:#fff;border-radius:22px;padding:16px;margin-bottom:14px;box-shadow:0 5px 20px #0000000e}
-.title{font-size:20px;font-weight:bold;margin-bottom:12px}
-button,input,select{width:100%;min-height:50px;border:1px solid #d3ddd8;border-radius:15px;padding:10px;font-size:16px;background:#fff}
-button{font-weight:bold;cursor:pointer}.main{background:#176b4d;color:#fff;border:0}.secondary{background:#edf3f0}.danger{background:#fff0f0;color:#a11}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none!important}
-.info{padding:12px;background:#f1f6f3;border-radius:15px;margin-top:10px;line-height:2}
-.next{font-size:22px;font-weight:bold;color:#176b4d;text-align:center}
-.countdown{text-align:center;font-size:30px;font-weight:bold;direction:ltr;color:#176b4d;margin:8px 0}
-.prayer{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.prayer div{padding:12px;background:#f3f7f5;border-radius:14px;display:flex;justify-content:space-between}
-.prayer b{direction:ltr}
-#map{height:300px;border-radius:18px;margin-top:12px}
-.sectionBtn{text-align:right;background:#f3f7f5;margin-top:8px}
-.content{line-height:2;background:#fafcfb;border-radius:15px;padding:14px;margin-top:8px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#173f31;color:#fff;padding:12px 18px;border-radius:14px;z-index:9999;display:none}
-body.dark{background:#101613;color:#eee}
-body.dark .card{background:#1b2420}
-body.dark button,body.dark input,body.dark select{background:#202b26;color:#fff;border-color:#39463f}
-body.dark .info,body.dark .prayer div,body.dark .sectionBtn{background:#24302b}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#eef4f1;
+  color:#17201d;
+}
+
+.app{
+  max-width:620px;
+  margin:auto;
+  padding:12px;
+}
+
+.header{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(255,255,255,.18),transparent 30%),
+    linear-gradient(145deg,#0d5c43,#19815d,#0d503b);
+  color:white;
+  border-radius:26px;
+  padding:24px 18px;
+  text-align:center;
+  margin-bottom:14px;
+  box-shadow:0 10px 30px rgba(15,90,65,.20);
+}
+
+.header:before{
+  content:"✦   ✦   ✦";
+  display:block;
+  opacity:.7;
+  margin-bottom:8px;
+  letter-spacing:8px;
+}
+
+.header h1{
+  margin:0 0 7px;
+  font-size:28px;
+}
+
+.header p{
+  margin:0;
+  opacity:.9;
+  font-size:15px;
+}
+
+.card{
+  background:white;
+  border-radius:22px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+
+.title{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:13px;
+}
+
+select,
+input,
+button{
+  width:100%;
+  min-height:50px;
+  border-radius:15px;
+  border:1px solid #d5dfda;
+  font-size:17px;
+  padding:10px;
+  background:white;
+}
+
+button{
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.mainBtn{
+  background:#176b4d;
+  color:white;
+  border:0;
+}
+
+.secondary{
+  background:#edf4f0;
+}
+
+.danger{
+  background:#fff0f0;
+  color:#a11;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.prayer-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.prayer{
+  position:relative;
+  background:#f2f7f4;
+  border-radius:16px;
+  padding:13px;
+  text-align:center;
+  border:2px solid transparent;
+}
+
+.prayer.next{
+  border-color:#19815d;
+  background:#e9f6f0;
+}
+
+.prayer .name{
+  font-size:15px;
+  color:#66736e;
+}
+
+.prayer .time{
+  font-size:25px;
+  font-weight:bold;
+  color:#176b4d;
+  margin-top:5px;
+}
+
+.nextBadge{
+  display:inline-block;
+  margin-top:6px;
+  padding:4px 9px;
+  border-radius:20px;
+  background:#176b4d;
+  color:white;
+  font-size:12px;
+}
+
+.adhanBox{
+  margin-top:13px;
+  padding:14px;
+  background:#f0f6f3;
+  border-radius:17px;
+  text-align:center;
+}
+
+.adhanStatus{
+  font-weight:bold;
+  color:#176b4d;
+  margin-bottom:9px;
+}
+
+.nextPrayer{
+  font-size:17px;
+}
+
+.countdown{
+  font-size:27px;
+  font-weight:bold;
+  color:#176b4d;
+  margin-top:6px;
+}
+
+.location{
+  text-align:center;
+  color:#68756f;
+  margin-bottom:12px;
+}
+
+.tasbih{
+  position:relative;
+  width:min(88vw,370px);
+  height:min(88vw,370px);
+  margin:22px auto;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#fff 0 28%,transparent 29%),
+    repeating-conic-gradient(
+      from 0deg,
+      #176b4d 0deg 7deg,
+      transparent 7deg 12deg
+    );
+  border:10px solid #176b4d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  user-select:none;
+  touch-action:none;
+  box-shadow:0 10px 30px rgba(0,0,0,.13);
+}
+
+.tasbih:after{
+  content:"";
+  position:absolute;
+  width:73%;
+  height:73%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 35% 25%,#ffffff,#e8efeb);
+  z-index:0;
+  box-shadow:
+    inset 0 4px 15px rgba(0,0,0,.08);
+}
+
+.tasbihContent{
+  position:relative;
+  z-index:2;
+}
+
+.count{
+  font-size:72px;
+  font-weight:bold;
+  color:#176b4d;
+}
+
+.dhikr{
+  text-align:center;
+  font-size:25px;
+  font-weight:bold;
+  color:#176b4d;
+}
+
+.limit{
+  text-align:center;
+  color:#68756f;
+  margin-top:4px;
+}
+
+.progress{
+  height:10px;
+  background:#e5ebe8;
+  border-radius:20px;
+  overflow:hidden;
+  margin:14px 0;
+}
+
+.progress div{
+  height:100%;
+  width:0%;
+  background:#176b4d;
+  transition:.2s;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.stat{
+  background:#f2f6f4;
+  border-radius:15px;
+  padding:14px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:25px;
+  color:#176b4d;
+  margin-top:5px;
+}
+
+.small{
+  font-size:13px;
+  color:#66736e;
+}
+
+body.senior{
+  font-size:20px;
+}
+
+body.senior .header h1{
+  font-size:32px;
+}
+
+body.senior .title{
+  font-size:25px;
+}
+
+body.senior button,
+body.senior select,
+body.senior input{
+  min-height:65px;
+  font-size:22px;
+}
+
+body.senior .count{
+  font-size:90px;
+}
+
+body.senior .tasbih{
+  width:min(90vw,400px);
+  height:min(90vw,400px);
+}
+
+.footer{
+  text-align:center;
+  color:#718079;
+  padding:20px 0;
+  font-size:13px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.loading{
+  text-align:center;
+  color:#68756f;
+  padding:10px;
+}
+
+.error{
+  background:#fff1f1;
+  color:#a11;
+  padding:12px;
+  border-radius:14px;
+  text-align:center;
+  margin-top:10px;
+}
+
+#adhanOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.adhanPopup{
+  width:min(500px,95vw);
+  background:white;
+  border-radius:28px;
+  padding:28px 20px;
+  text-align:center;
+  box-shadow:0 15px 50px rgba(0,0,0,.3);
+}
+
+.adhanPopup .mosque{
+  font-size:55px;
+}
+
+.adhanPopup h2{
+  color:#176b4d;
+  margin:10px 0;
+  font-size:28px;
+}
+
+.adhanPopup p{
+  font-size:18px;
+}
+
+@media(max-width:380px){
+  .prayer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .count{
+    font-size:58px;
+  }
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
-<div class="header">
-<h1>🕌 عبادت من</h1>
-<p>نماز • قرآن • دعا • ذکر • اوقات شرعی</p>
+  <div class="header">
+    <h1>🕌 عبادت من</h1>
+    <p>ذکر • نماز • قرآن • دعا • آرامش</p>
+  </div>
+
+  <!-- اوقات شرعی -->
+  <div class="card">
+
+    <div class="title">🕌 اوقات شرعی</div>
+
+    <select id="citySelect">
+      <option value="Mashhad|Iran">مشهد</option>
+      <option value="Tehran|Iran">تهران</option>
+      <option value="Qom|Iran">قم</option>
+      <option value="Tabriz|Iran">تبریز</option>
+      <option value="Isfahan|Iran">اصفهان</option>
+      <option value="Shiraz|Iran">شیراز</option>
+      <option value="Maku|Iran">ماکو</option>
+      <option value="Medina|Saudi Arabia">مدینه</option>
+      <option value="Mecca|Saudi Arabia">مکه</option>
+      <option value="Istanbul|Turkey">استانبول</option>
+      <option value="Dubai|United Arab Emirates">دبی</option>
+      <option value="custom">شهر دیگر</option>
+    </select>
+
+    <div id="customCityBox" class="hidden" style="margin-top:10px">
+
+      <input
+        id="customCity"
+        placeholder="نام شهر"
+      >
+
+      <input
+        id="customCountry"
+        placeholder="نام کشور"
+        style="margin-top:8px"
+      >
+
+      <button
+        class="mainBtn"
+        id="customCityBtn"
+        style="margin-top:8px"
+      >
+        دریافت اوقات شرعی
+      </button>
+
+    </div>
+
+    <div class="location" id="locationText">
+      مشهد، ایران
+    </div>
+
+    <div id="prayerLoading" class="loading">
+      در حال دریافت اوقات شرعی...
+    </div>
+
+    <div id="prayerGrid" class="prayer-grid hidden">
+
+      <div class="prayer" data-prayer="Fajr">
+        <div class="name">صبح</div>
+        <div class="time" id="fajr">--:--</div>
+      </div>
+
+      <div class="prayer" data-prayer="Dhuhr">
+        <div class="name">ظهر</div>
+        <div class="time" id="dhuhr">--:--</div>
+      </div>
+
+      <div class="prayer" data-prayer="Asr">
+        <div class="name">عصر</div>
+        <div class="time" id="asr">--:--</div>
+      </div>
+
+      <div class="prayer" data-prayer="Maghrib">
+        <div class="name">مغرب</div>
+        <div class="time" id="maghrib">--:--</div>
+      </div>
+
+      <div class="prayer" data-prayer="Isha">
+        <div class="name">عشاء</div>
+        <div class="time" id="isha">--:--</div>
+      </div>
+
+      <div class="prayer" data-prayer="Sunrise">
+        <div class="name">طلوع آفتاب</div>
+        <div class="time" id="sunrise">--:--</div>
+      </div>
+
+    </div>
+
+    <div id="prayerError" class="error hidden"></div>
+
+    <div class="adhanBox">
+
+      <div class="adhanStatus" id="adhanStatus">
+        🔔 هشدار اذان: روشن
+      </div>
+
+      <div class="nextPrayer" id="nextPrayer">
+        در حال محاسبه...
+      </div>
+
+      <div class="countdown" id="countdown">
+        --:--
+      </div>
+
+      <button
+        class="secondary"
+        id="adhanToggle"
+        style="margin-top:10px"
+      >
+        🔔 هشدار اذان: روشن
+      </button>
+
+      <button
+        class="mainBtn"
+        id="enableAudioBtn"
+        style="margin-top:8px"
+      >
+        🔊 فعال‌سازی صدای اذان
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- امکانات -->
+  <div class="card">
+
+    <div class="title">🌙 امکانات</div>
+
+    <div class="row">
+
+      <button class="secondary">
+        📖 قرآن
+      </button>
+
+      <button class="secondary">
+        🧎 نماز
+      </button>
+
+      <button class="secondary">
+        🤲 اذکار روزانه
+      </button>
+
+      <button class="secondary">
+        ❤️ صدقه و کمک
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- تسبیح -->
+  <div class="card">
+
+    <div class="title">📿 انتخاب ذکر</div>
+
+    <select id="dhikrSelect">
+
+      <option value="subhan">
+        سبحان‌الله — ۳۳
+      </option>
+
+      <option value="hamd">
+        الحمدلله — ۳۳
+      </option>
+
+      <option value="allah">
+        الله‌اکبر — ۳۴
+      </option>
+
+      <option value="salavat">
+        صلوات — ۱۰۰
+      </option>
+
+      <option value="custom">
+        ذکر دلخواه
+      </option>
+
+      <option value="unlimited">
+        شمارش نامحدود
+      </option>
+
+    </select>
+
+    <div id="customBox" class="hidden" style="margin-top:10px">
+
+      <input
+        id="customName"
+        placeholder="نام ذکر"
+      >
+
+      <input
+        id="customLimit"
+        type="number"
+        min="0"
+        placeholder="تعداد هدف"
+        style="margin-top:8px"
+      >
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="dhikr" id="currentDhikr">
+      سبحان‌الله
+    </div>
+
+    <div class="limit" id="limitText">
+      هدف: ۳۳
+    </div>
+
+    <div
+      class="tasbih"
+      id="tasbih"
+    >
+
+      <div class="tasbihContent">
+
+        <div class="count" id="count">
+          ۰
+        </div>
+
+        <div class="small">
+          👆 روی دانه بکشید
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="small"
+      style="text-align:center"
+    >
+      انگشت را روی تسبیح حرکت دهید یا لمس کنید
+    </div>
+
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
+
+    <div class="row">
+
+      <button
+        class="secondary"
+        id="minusBtn"
+      >
+        − یک عدد
+      </button>
+
+      <button
+        class="danger"
+        id="resetBtn"
+      >
+        🔄 صفر کردن
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- آمار -->
+  <div class="card">
+
+    <div class="title">
+      📊 آمار من
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        صلوات
+        <b id="totalSalavat">۰</b>
+      </div>
+
+      <div class="stat">
+        سبحان‌الله
+        <b id="totalSubhan">۰</b>
+      </div>
+
+      <div class="stat">
+        الحمدلله
+        <b id="totalHamd">۰</b>
+      </div>
+
+      <div class="stat">
+        الله‌اکبر
+        <b id="totalAllah">۰</b>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- سالمندان -->
+  <div class="card">
+
+    <div class="title">
+      🧓 حالت سالمندان
+    </div>
+
+    <button
+      class="mainBtn"
+      id="seniorBtn"
+    >
+      🧓 فعال کردن حالت سالمندان
+    </button>
+
+  </div>
+
+  <!-- تنظیمات -->
+  <div class="card">
+
+    <div class="title">
+      ⚙️ تنظیمات
+    </div>
+
+    <div class="row">
+
+      <button
+        class="secondary"
+        id="soundBtn"
+      >
+        🔊 صدای شمارش: روشن
+      </button>
+
+      <button
+        class="secondary"
+        id="vibrateBtn"
+      >
+        📳 لرزش: روشن
+      </button>
+
+    </div>
+
+    <button
+      class="danger"
+      id="clearAllBtn"
+      style="margin-top:10px"
+    >
+      🗑 پاک کردن همه آمار
+    </button>
+
+  </div>
+
+  <div class="footer">
+    عبادت من — نسخه آزمایشی
+    <br>
+    اطلاعات شمارش روی همین گوشی ذخیره می‌شود.
+  </div>
+
 </div>
 
-<div class="card">
-<div class="title">📅 امروز</div>
-<div id="dateBox" class="info">در حال دریافت تاریخ...</div>
-</div>
+<!-- پنجره اذان -->
 
-<div class="card">
-<div class="title">📍 شهر و موقعیت</div>
+<div id="adhanOverlay">
 
-<div class="row">
-<button class="secondary" id="locBtn">📍 استفاده از موقعیت فعلی</button>
-<button class="secondary" id="mapBtn">🗺 انتخاب روی نقشه</button>
-</div>
+  <div class="adhanPopup">
 
-<input id="citySearch" placeholder="🔎 نام شهر را جستجو کنید" style="margin-top:10px">
+    <div class="mosque">
+      🕌
+    </div>
 
-<button class="main" id="searchCity" style="margin-top:8px">
-جستجوی شهر
-</button>
+    <h2 id="adhanPrayerName">
+      وقت نماز
+    </h2>
 
-<div id="cityResult" class="info">
-شهر انتخاب‌شده: موقعیت فعلی
-</div>
+    <p>
+      وقت نماز فرا رسیده است
+    </p>
 
-<div id="mapBox" class="hidden">
-<div id="map"></div>
-</div>
-</div>
+    <button
+      class="mainBtn"
+      id="closeAdhan"
+    >
+      متوجه شدم
+    </button>
 
-<div class="card">
-<div class="title">🕋 اوقات شرعی</div>
-
-<div class="next" id="nextPrayer">
-در حال محاسبه...
-</div>
-
-<div class="countdown" id="countdown">
-۰۰:۰۰:۰۰
-</div>
-
-<div class="small" style="text-align:center">
-تا اذان بعدی
-</div>
-
-<div class="prayer" id="prayers"></div>
-</div>
-
-<div class="card">
-<div class="title">🔊 تنظیمات اذان</div>
-
-<button class="main" id="autoAzan">
-🔊 پخش خودکار اذان: روشن
-</button>
-
-<button class="secondary" id="noticeBtn" style="margin-top:8px">
-🔔 اعلان زمان اذان: خاموش
-</button>
-
-<select id="volume" style="margin-top:8px">
-<option value=".95">صدای اذان: زیاد</option>
-<option value=".65">صدای اذان: متوسط</option>
-<option value=".35">صدای اذان: کم</option>
-</select>
-
-<audio id="azanAudio" preload="auto" src="azan.mp3"></audio>
-
-<button class="secondary" id="testAzan" style="margin-top:8px">
-▶️ تست صدای اذان
-</button>
-
-<div id="audioStatus" class="info">
-برای پخش اذان، فایل <b>azan.mp3</b> را کنار index.html قرار دهید.
-</div>
-</div>
-
-<div class="card">
-<div class="title">🕌 نماز</div>
-
-<button class="sectionBtn" id="prayerMenu">
-🕌 نماز و رکعت‌شمار ▼
-</button>
-
-<div id="prayerPanel" class="content hidden">
-
-<select id="prayerType">
-<option value="fajr">نماز صبح — ۲ رکعت</option>
-<option value="zuhr">نماز ظهر — ۴ رکعت</option>
-<option value="asr">نماز عصر — ۴ رکعت</option>
-<option value="maghrib">نماز مغرب — ۳ رکعت</option>
-<option value="isha">نماز عشاء — ۴ رکعت</option>
-<option value="custom">نماز دلخواه</option>
-</select>
-
-<select id="countMethod" style="margin-top:8px">
-<option value="touch">👆 لمسی — ضربه روی صفحه</option>
-<option value="voice">🎙 صوتی — تشخیص سجده با صدا</option>
-<option value="light">💡 نور/سنسور — در صورت پشتیبانی گوشی</option>
-<option value="camera">📷 دوربین — تشخیص حرکت</option>
-<option value="button">🔘 دکمه دستی</option>
-</select>
-
-<div class="info">
-<b>روش پیشنهادی:</b>
-لمسی یا دکمه دستی دقیق‌ترین روش در مرورگر است.
-<br>
-روش دوربین، نور و صوت به سخت‌افزار و اجازه مرورگر وابسته است.
-</div>
-
-<div class="countdown" id="rakah">
-۰ / ۲
-</div>
-
-<div class="row">
-<button class="main" id="nextRakah">
-➕ رکعت بعد
-</button>
-
-<button class="danger" id="resetRakah">
-🔄 صفر
-</button>
-</div>
-
-<div id="voiceStatus" class="info hidden">
-🎙 آماده تشخیص صدا...
-</div>
+  </div>
 
 </div>
-</div>
-
-<div class="card">
-<div class="title">📖 قرآن کریم</div>
-
-<button class="sectionBtn" id="quranMenu">
-📖 فهرست سوره‌ها ▼
-</button>
-
-<div id="quranPanel" class="content hidden"></div>
-</div>
-
-<div class="card">
-<div class="title">🤲 دعا و مفاتیح</div>
-
-<button class="sectionBtn" id="duaMenu">
-🤲 بخش‌های دعا ▼
-</button>
-
-<div id="duaPanel" class="content hidden">
-
-<button class="sectionBtn dua" data-dua="morning">
-☀️ دعای صبح
-</button>
-
-<button class="sectionBtn dua" data-dua="evening">
-🌙 دعای شب
-</button>
-
-<button class="sectionBtn dua" data-dua="tawassul">
-🤲 دعای توسل
-</button>
-
-<button class="sectionBtn dua" data-dua="faraj">
-🌿 دعای فرج
-</button>
-
-<button class="sectionBtn dua" data-dua="komail">
-🌙 دعای کمیل
-</button>
-
-<button class="sectionBtn dua" data-dua="ashura">
-🕊 زیارت عاشورا
-</button>
-
-<button class="sectionBtn dua" data-dua="nadbe">
-🤲 دعای ندبه
-</button>
-
-<div id="duaText" class="content">
-یک بخش را انتخاب کنید.
-</div>
-
-</div>
-</div>
-
-<div class="card">
-<div class="title">📿 ذکر</div>
-
-<select id="dhikr">
-<option>سبحان‌الله — ۳۳</option>
-<option>الحمدلله — ۳۳</option>
-<option>الله‌اکبر — ۳۴</option>
-<option>صلوات — ۱۰۰</option>
-<option>شمارش نامحدود</option>
-</select>
-
-<div class="countdown" id="dhikrCount">
-۰
-</div>
-
-<button class="main" id="dhikrAdd">
-📿 یک ذکر
-</button>
-</div>
-
-<div class="card">
-<div class="title">⚙️ تنظیمات</div>
-
-<button class="secondary" id="darkBtn">
-☀️ حالت روز
-</button>
-</div>
-
-<div class="footer" style="text-align:center;padding:20px;color:#718079">
-عبادت من — اطلاعات روی همین گوشی ذخیره می‌شود.
-</div>
-
-</div>
-
-<div id="toast" class="toast"></div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 
-const pad=n=>
-fa(String(n).padStart(2,"0"));
+/* =========================
+   اوقات شرعی
+========================= */
 
-const toast=m=>{
-let x=document.getElementById("toast");
-x.textContent=m;
-x.style.display="block";
-setTimeout(()=>x.style.display="none",2500);
+const prayerNames={
+  Fajr:"نماز صبح",
+  Dhuhr:"نماز ظهر",
+  Asr:"نماز عصر",
+  Maghrib:"نماز مغرب",
+  Isha:"نماز عشاء"
 };
 
-const prayers=[
-["اذان صبح","fajr"],
-["طلوع آفتاب","sunrise"],
-["اذان ظهر","dhuhr"],
-["اذان عصر","asr"],
-["اذان مغرب","maghrib"],
-["اذان عشاء","isha"]
-];
+let prayerTimes=null;
+let prayerCity="Mashhad";
+let prayerCountry="Iran";
 
-let lat=35.6892;
-let lon=51.3890;
-let city="موقعیت فعلی";
+let adhanEnabled=
+  localStorage.getItem("adhan_enabled")!=="0";
 
-let times={
-fajr:"03:27",
-sunrise:"04:58",
-dhuhr:"11:34",
-asr:"15:17",
-maghrib:"18:29",
-isha:"19:20"
-};
+let audioUnlocked=false;
 
-let autoAzan=
-localStorage.getItem("autoAzan")!=="0";
+const citySelect=
+  document.getElementById("citySelect");
 
-let notify=
-localStorage.getItem("notifyAzan")==="1";
+const customCityBox=
+  document.getElementById("customCityBox");
 
-let lastPlayed="";
+const customCity=
+  document.getElementById("customCity");
 
-function timeToMin(t){
-let [h,m]=t.split(":").map(Number);
-return h*60+m;
+const customCountry=
+  document.getElementById("customCountry");
+
+const prayerLoading=
+  document.getElementById("prayerLoading");
+
+const prayerGrid=
+  document.getElementById("prayerGrid");
+
+const prayerError=
+  document.getElementById("prayerError");
+
+const locationText=
+  document.getElementById("locationText");
+
+const nextPrayer=
+  document.getElementById("nextPrayer");
+
+const countdown=
+  document.getElementById("countdown");
+
+const adhanToggle=
+  document.getElementById("adhanToggle");
+
+const adhanStatus=
+  document.getElementById("adhanStatus");
+
+function updateAdhanButton(){
+
+  if(adhanEnabled){
+
+    adhanToggle.textContent=
+      "🔔 هشدار اذان: روشن";
+
+    adhanStatus.textContent=
+      "🔔 هشدار اذان: روشن";
+
+  }else{
+
+    adhanToggle.textContent=
+      "🔕 هشدار اذان: خاموش";
+
+    adhanStatus.textContent=
+      "🔕 هشدار اذان: خاموش";
+
+  }
 }
 
-function calcPrayerTimes(){
+adhanToggle.addEventListener(
+  "click",
+  ()=>{
 
-const d=new Date();
+    adhanEnabled=!adhanEnabled;
 
-const day=
-d.getDate()+
-d.getMonth()*30;
+    localStorage.setItem(
+      "adhan_enabled",
+      adhanEnabled ? "1":"0"
+    );
 
-const seasonal=
-Math.sin((day-80)/365*2*Math.PI);
+    updateAdhanButton();
 
-const base={
-fajr:4.1,
-sunrise:5.55,
-dhuhr:12.0,
-asr:15.25,
-maghrib:18.45,
-isha:19.65
-};
-
-let shift=seasonal*.9;
-
-times={
-fajr:minToTime(base.fajr-shift),
-sunrise:minToTime(base.sunrise-shift*.65),
-dhuhr:minToTime(base.dhuhr),
-asr:minToTime(base.asr+shift*.35),
-maghrib:minToTime(base.maghrib+shift),
-isha:minToTime(base.isha+shift)
-};
-
-}
-
-function minToTime(x){
-
-x=(x+24)%24;
-
-let h=Math.floor(x);
-
-let m=Math.round((x-h)*60);
-
-if(m===60){
-h=(h+1)%24;
-m=0;
-}
-
-return String(h).padStart(2,"0")+
-":"+
-String(m).padStart(2,"0");
-
-}
-
-function renderTimes(){
-
-let p=document.getElementById("prayers");
-
-p.innerHTML=
-prayers.map(([n,k])=>
-`
-<div>
-<span>${n}</span>
-<b>${fa(times[k])}</b>
-</div>
-`
-).join("");
-
-}
-
-function updateNext(){
-
-const now=new Date();
-
-const nowMin=
-now.getHours()*60+
-now.getMinutes()+
-now.getSeconds()/60;
-
-let arr=[
-["اذان صبح","fajr"],
-["اذان ظهر","dhuhr"],
-["اذان عصر","asr"],
-["اذان مغرب","maghrib"],
-["اذان عشاء","isha"]
-];
-
-let next=null;
-
-for(let x of arr){
-
-if(
-timeToMin(times[x[1]])>
-nowMin
-){
-next=x;
-break;
-}
-
-}
-
-let tomorrow=false;
-
-if(!next){
-next=arr[0];
-tomorrow=true;
-}
-
-document.getElementById("nextPrayer")
-.textContent=next[0];
-
-let target=
-timeToMin(times[next[1]])*60;
-
-let current=
-now.getHours()*3600+
-now.getMinutes()*60+
-now.getSeconds();
-
-let diff=
-target-current;
-
-if(tomorrow)
-diff+=86400;
-
-if(diff<0)
-diff+=86400;
-
-let h=Math.floor(diff/3600);
-let m=Math.floor(diff%3600/60);
-let s=Math.floor(diff%60);
-
-document.getElementById("countdown")
-.textContent=
-pad(h)+":"+pad(m)+":"+pad(s);
-
-const key=next[1];
-
-const today=
-new Date()
-.toISOString()
-.slice(0,10);
-
-if(
-autoAzan &&
-diff<=1 &&
-lastPlayed!==today+key
-){
-
-playAzan();
-
-lastPlayed=
-today+key;
-
-}
-
-}
-
-function playAzan(){
-
-const a=
-document.getElementById("azanAudio");
-
-a.volume=
-Number(
-document.getElementById("volume").value
+  }
 );
 
-a.currentTime=0;
+function getToday(){
 
-a.play()
-.then(()=>{
+  const d=new Date();
 
-document.getElementById("audioStatus")
-.textContent=
-"✅ صدای اذان در حال پخش است.";
+  const day=String(
+    d.getDate()
+  ).padStart(2,"0");
 
-})
-.catch(()=>{
+  const month=String(
+    d.getMonth()+1
+  ).padStart(2,"0");
 
-document.getElementById("audioStatus")
-.innerHTML=
-"❌ پخش خودکار توسط مرورگر مسدود شد. ابتدا دکمه «تست صدای اذان» را بزنید.";
+  const year=d.getFullYear();
 
-});
-
+  return `${day}-${month}-${year}`;
 }
 
-document.addEventListener(
-"click",
-()=>{
-const a=
-document.getElementById("azanAudio");
+function cleanTime(time){
 
-if(a.paused)
-a.load();
+  if(!time) return null;
 
-},
-{once:true}
-);
-
-document.getElementById("testAzan")
-.onclick=()=>{
-playAzan();
-};
-
-document.getElementById("autoAzan")
-.onclick=()=>{
-
-autoAzan=!autoAzan;
-
-localStorage.setItem(
-"autoAzan",
-autoAzan?"1":"0"
-);
-
-document.getElementById("autoAzan")
-.textContent=
-autoAzan
-?
-"🔊 پخش خودکار اذان: روشن"
-:
-"🔇 پخش خودکار اذان: خاموش";
-
-};
-
-document.getElementById("noticeBtn")
-.onclick=async()=>{
-
-notify=!notify;
-
-localStorage.setItem(
-"notifyAzan",
-notify?"1":"0"
-);
-
-if(
-notify &&
-"Notification" in window
-){
-
-let p=
-await Notification.requestPermission();
-
-if(p!=="granted")
-notify=false;
-
+  return time
+    .split(" ")[0]
+    .trim();
 }
 
-document.getElementById("noticeBtn")
-.textContent=
-notify
-?
-"🔔 اعلان زمان اذان: روشن"
-:
-"🔔 اعلان زمان اذان: خاموش";
+async function loadPrayerTimes(){
 
-};
+  prayerLoading.classList.remove(
+    "hidden"
+  );
 
-function dateInfo(){
+  prayerGrid.classList.add(
+    "hidden"
+  );
 
-const d=new Date();
+  prayerError.classList.add(
+    "hidden"
+  );
 
-const days=[
-"یکشنبه",
-"دوشنبه",
-"سه‌شنبه",
-"چهارشنبه",
-"پنجشنبه",
-"جمعه",
-"شنبه"
-];
+  const date=getToday();
 
-document.getElementById("dateBox")
-.innerHTML=
+  const url=
+    "https://api.aladhan.com/v1/timingsByCity/"
+    +date
+    +"?city="
+    +encodeURIComponent(prayerCity)
+    +"&country="
+    +encodeURIComponent(prayerCountry)
+    +"&method=0";
 
-`
-${days[d.getDay()]} —
-${fa(d.getFullYear())}/
-${fa(d.getMonth()+1)}/
-${fa(d.getDate())}
+  try{
 
-<br>
+    const response=
+      await fetch(url);
 
-میلادی:
-${fa(d.getFullYear())}/
-${fa(d.getMonth()+1)}/
-${fa(d.getDate())}
+    if(!response.ok){
+      throw new Error(
+        "HTTP "+response.status
+      );
+    }
 
-<br>
+    const json=
+      await response.json();
 
-قمری: تاریخ قمری وابسته به تقویم انتخابی
-`;
+    if(
+      !json.data ||
+      !json.data.timings
+    ){
+      throw new Error(
+        "داده اوقات شرعی دریافت نشد"
+      );
+    }
 
+    prayerTimes=json.data.timings;
+
+    document.getElementById("fajr")
+      .textContent=
+      cleanTime(prayerTimes.Fajr);
+
+    document.getElementById("sunrise")
+      .textContent=
+      cleanTime(prayerTimes.Sunrise);
+
+    document.getElementById("dhuhr")
+      .textContent=
+      cleanTime(prayerTimes.Dhuhr);
+
+    document.getElementById("asr")
+      .textContent=
+      cleanTime(prayerTimes.Asr);
+
+    document.getElementById("maghrib")
+      .textContent=
+      cleanTime(prayerTimes.Maghrib);
+
+    document.getElementById("isha")
+      .textContent=
+      cleanTime(prayerTimes.Isha);
+
+    locationText.textContent=
+      prayerCity+"، "+prayerCountry;
+
+    prayerLoading.classList.add(
+      "hidden"
+    );
+
+    prayerGrid.classList.remove(
+      "hidden"
+    );
+
+    updateNextPrayer();
+
+  }catch(error){
+
+    prayerLoading.classList.add(
+      "hidden"
+    );
+
+    prayerError.textContent=
+      "⚠️ دریافت اوقات شرعی انجام نشد. اینترنت را بررسی کنید.";
+
+    prayerError.classList.remove(
+      "hidden"
+    );
+
+    console.error(error);
+  }
 }
 
-document.getElementById("locBtn")
-.onclick=()=>{
+citySelect.addEventListener(
+  "change",
+  ()=>{
 
-if(!navigator.geolocation){
+    const value=
+      citySelect.value;
 
-toast(
-"مرورگر از موقعیت مکانی پشتیبانی نمی‌کند"
+    if(value==="custom"){
+
+      customCityBox.classList.remove(
+        "hidden"
+      );
+
+      return;
+    }
+
+    customCityBox.classList.add(
+      "hidden"
+    );
+
+    const parts=value.split("|");
+
+    prayerCity=parts[0];
+    prayerCountry=parts[1];
+
+    localStorage.setItem(
+      "prayer_city",
+      prayerCity
+    );
+
+    localStorage.setItem(
+      "prayer_country",
+      prayerCountry
+    );
+
+    loadPrayerTimes();
+
+  }
 );
-
-return;
-
-}
-
-navigator.geolocation.getCurrentPosition(
-
-pos=>{
-
-lat=
-pos.coords.latitude;
-
-lon=
-pos.coords.longitude;
-
-city="موقعیت فعلی";
-
-document.getElementById("cityResult")
-.innerHTML=
-`
-📍 موقعیت فعلی
-<br>
-عرض: ${lat.toFixed(5)}
-—
-طول: ${lon.toFixed(5)}
-`;
-
-if(map){
-
-map.setView(
-[lat,lon],
-12
-);
-
-marker.setLatLng(
-[lat,lon]
-);
-
-}
-
-calcPrayerTimes();
-
-renderTimes();
-
-toast(
-"موقعیت و اوقات شرعی به‌روزرسانی شد"
-);
-
-},
-
-()=>{
-
-toast(
-"اجازه دسترسی به موقعیت داده نشد"
-);
-
-}
-
-);
-
-};
-
-let map=null;
-let marker=null;
-
-document.getElementById("mapBtn")
-.onclick=()=>{
-
-document
-.getElementById("mapBox")
-.classList
-.toggle("hidden");
-
-if(!map){
-
-map=
-L.map("map")
-.setView(
-[lat,lon],
-6
-);
-
-L.tileLayer(
-"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-{
-maxZoom:19,
-attribution:"© OpenStreetMap"
-}
-).addTo(map);
-
-marker=
-L.marker(
-[lat,lon],
-{draggable:true}
-)
-.addTo(map)
-.bindPopup(
-"موقعیت انتخاب‌شده"
-)
-.openPopup();
-
-map.on(
-"click",
-e=>{
-
-lat=
-e.latlng.lat;
-
-lon=
-e.latlng.lng;
-
-marker.setLatLng(
-e.latlng
-);
-
-city=
-"نقطه انتخاب‌شده";
 
 document.getElementById(
-"cityResult"
-).textContent=
-`
-📍 نقطه انتخاب‌شده:
-${lat.toFixed(5)},
-${lon.toFixed(5)}
-`;
+  "customCityBtn"
+).addEventListener(
+  "click",
+  ()=>{
 
-calcPrayerTimes();
+    const city=
+      customCity.value.trim();
 
-renderTimes();
+    const country=
+      customCountry.value.trim();
 
-}
+    if(!city || !country){
+
+      alert(
+        "نام شهر و کشور را وارد کنید."
+      );
+
+      return;
+    }
+
+    prayerCity=city;
+    prayerCountry=country;
+
+    localStorage.setItem(
+      "prayer_city",
+      city
+    );
+
+    localStorage.setItem(
+      "prayer_country",
+      country
+    );
+
+    loadPrayerTimes();
+
+  }
 );
 
-marker.on(
-"dragend",
-()=>{
+function parseTodayTime(time){
 
-let p=
-marker.getLatLng();
+  if(!time) return null;
 
-lat=p.lat;
-lon=p.lng;
+  const clean=
+    cleanTime(time);
+
+  const parts=
+    clean.split(":");
+
+  const d=new Date();
+
+  d.setHours(
+    Number(parts[0]),
+    Number(parts[1]),
+    0,
+    0
+  );
+
+  return d;
+}
+
+function updateNextPrayer(){
+
+  if(!prayerTimes) return;
+
+  const now=new Date();
+
+  const list=[
+    {
+      key:"Fajr",
+      name:"نماز صبح"
+    },
+    {
+      key:"Dhuhr",
+      name:"نماز ظهر"
+    },
+    {
+      key:"Asr",
+      name:"نماز عصر"
+    },
+    {
+      key:"Maghrib",
+      name:"نماز مغرب"
+    },
+    {
+      key:"Isha",
+      name:"نماز عشاء"
+    }
+  ];
+
+  let upcoming=null;
+
+  document.querySelectorAll(
+    ".prayer"
+  ).forEach(el=>{
+    el.classList.remove("next");
+
+    const badge=
+      el.querySelector(".nextBadge");
+
+    if(badge){
+      badge.remove();
+    }
+  });
+
+  for(const p of list){
+
+    const date=
+      parseTodayTime(
+        prayerTimes[p.key]
+      );
+
+    if(date && date>now){
+
+      upcoming={
+        ...p,
+        date
+      };
+
+      break;
+    }
+  }
+
+  if(!upcoming){
+
+    nextPrayer.textContent=
+      "نمازهای امروز به پایان رسیده‌اند.";
+
+    countdown.textContent=
+      "برای فردا آماده باشید";
+
+    return;
+  }
+
+  const card=
+    document.querySelector(
+      `.prayer[data-prayer="${upcoming.key}"]`
+    );
+
+  if(card){
+
+    card.classList.add("next");
+
+    const badge=
+      document.createElement("div");
+
+    badge.className=
+      "nextBadge";
+
+    badge.textContent=
+      "نماز بعدی";
+
+    card.appendChild(badge);
+  }
+
+  const diff=
+    upcoming.date-now;
+
+  const totalSeconds=
+    Math.max(
+      0,
+      Math.floor(diff/1000)
+    );
+
+  const hours=
+    Math.floor(
+      totalSeconds/3600
+    );
+
+  const minutes=
+    Math.floor(
+      (totalSeconds%3600)/60
+    );
+
+  const seconds=
+    totalSeconds%60;
+
+  nextPrayer.textContent=
+    "نماز بعدی: "
+    +upcoming.name
+    +" — "
+    +cleanTime(
+      prayerTimes[upcoming.key]
+    );
+
+  countdown.textContent=
+    String(hours).padStart(2,"0")
+    +":"
+    +String(minutes).padStart(2,"0")
+    +":"
+    +String(seconds).padStart(2,"0");
+}
+
+/* =========================
+   صدای اذان
+========================= */
+
+let audioContext=null;
+
+function createAudio(){
+
+  try{
+
+    const AudioContext=
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(!AudioContext){
+      return false;
+    }
+
+    if(!audioContext){
+
+      audioContext=
+        new AudioContext();
+    }
+
+    if(
+      audioContext.state==="suspended"
+    ){
+      audioContext.resume();
+    }
+
+    audioUnlocked=true;
+
+    return true;
+
+  }catch(e){
+
+    console.error(e);
+
+    return false;
+  }
+}
+
+function playAdhanAlert(){
+
+  if(!adhanEnabled){
+    return;
+  }
+
+  createAudio();
+
+  if(!audioContext){
+    return;
+  }
+
+  const start=
+    audioContext.currentTime;
+
+  /*
+    چند نت آرام برای هشدار
+    بعداً می‌توانیم فایل اذان
+    مجاز را جایگزین کنیم.
+  */
+
+  const notes=[
+    440,
+    554,
+    659,
+    554,
+    440
+  ];
+
+  notes.forEach(
+    (freq,index)=>{
+
+      const osc=
+        audioContext.createOscillator();
+
+      const gain=
+        audioContext.createGain();
+
+      osc.type="sine";
+
+      osc.frequency.value=
+        freq;
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        start+index*.45
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.10,
+        start+index*.45+0.05
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        start+index*.45+0.40
+      );
+
+      osc.connect(gain);
+      gain.connect(
+        audioContext.destination
+      );
+
+      osc.start(
+        start+index*.45
+      );
+
+      osc.stop(
+        start+index*.45+0.42
+      );
+
+    }
+  );
+
+}
 
 document.getElementById(
-"cityResult"
-).textContent=
-`
-📍 نقطه انتخاب‌شده:
-${lat.toFixed(5)},
-${lon.toFixed(5)}
-`;
+  "enableAudioBtn"
+).addEventListener(
+  "click",
+  ()=>{
 
-calcPrayerTimes();
+    if(createAudio()){
 
-renderTimes();
+      playAdhanAlert();
 
-}
+      alert(
+        "🔊 صدای اذان فعال شد.\n\n"
+        +"برای آزمایش، صدای هشدار پخش شد."
+      );
+
+    }else{
+
+      alert(
+        "مرورگر این دستگاه از صدای برنامه پشتیبانی نمی‌کند."
+      );
+
+    }
+
+  }
 );
 
-setTimeout(
-()=>map.invalidateSize(),
-200
-);
+let lastAdhanKey=
+  localStorage.getItem(
+    "last_adhan_key"
+  ) || "";
+
+function checkAdhan(){
+
+  if(!prayerTimes){
+    return;
+  }
+
+  const now=new Date();
+
+  const prayers=[
+    "Fajr",
+    "Dhuhr",
+    "Asr",
+    "Maghrib",
+    "Isha"
+  ];
+
+  const today=
+    now.getFullYear()
+    +"-"
+    +(now.getMonth()+1)
+    +"-"
+    +now.getDate();
+
+  for(const key of prayers){
+
+    const t=
+      cleanTime(
+        prayerTimes[key]
+      );
+
+    if(!t) continue;
+
+    const parts=t.split(":");
+
+    const h=
+      Number(parts[0]);
+
+    const m=
+      Number(parts[1]);
+
+    if(
+      now.getHours()===h &&
+      now.getMinutes()===m &&
+      now.getSeconds()<10
+    ){
+
+      const uniqueKey=
+        today+"_"+key;
+
+      if(
+        lastAdhanKey!==uniqueKey
+      ){
+
+        lastAdhanKey=
+          uniqueKey;
+
+        localStorage.setItem(
+          "last_adhan_key",
+          uniqueKey
+        );
+
+        document.getElementById(
+          "adhanPrayerName"
+        ).textContent=
+          prayerNames[key];
+
+        document.getElementById(
+          "adhanOverlay"
+        ).style.display=
+          "flex";
+
+        playAdhanAlert();
+
+        if(
+          navigator.vibrate
+        ){
+
+          navigator.vibrate([
+            300,
+            200,
+            300,
+            200,
+            600
+          ]);
+
+        }
+
+      }
+
+    }
+
+  }
 
 }
-else{
-
-setTimeout(
-()=>map.invalidateSize(),
-200
-);
-
-}
-
-};
-
-document.getElementById("searchCity")
-.onclick=async()=>{
-
-const q=
-document
-.getElementById("citySearch")
-.value
-.trim();
-
-if(!q)
-return;
-
-try{
-
-const r=
-await fetch(
-"https://nominatim.openstreetmap.org/search?format=json&limit=5&accept-language=fa&q="+
-encodeURIComponent(q)
-);
-
-const data=
-await r.json();
-
-if(!data.length){
-
-toast("شهر پیدا نشد");
-
-return;
-
-}
-
-let x=data[0];
-
-lat=+x.lat;
-lon=+x.lon;
-
-city=
-x.display_name
-.split(",")[0];
 
 document.getElementById(
-"cityResult"
-).textContent=
-"📍 شهر انتخاب‌شده: "+city;
+  "closeAdhan"
+).addEventListener(
+  "click",
+  ()=>{
+
+    document.getElementById(
+      "adhanOverlay"
+    ).style.display=
+      "none";
+
+  }
+);
+
+/* =========================
+   تسبیح
+========================= */
+
+const dhikrData={
+
+  subhan:{
+    name:"سبحان‌الله",
+    limit:33,
+    stat:"totalSubhan"
+  },
+
+  hamd:{
+    name:"الحمدلله",
+    limit:33,
+    stat:"totalHamd"
+  },
+
+  allah:{
+    name:"الله‌اکبر",
+    limit:34,
+    stat:"totalAllah"
+  },
+
+  salavat:{
+    name:"صلوات",
+    limit:100,
+    stat:"totalSalavat"
+  },
+
+  unlimited:{
+    name:"شمارش نامحدود",
+    limit:0,
+    stat:null
+  }
+
+};
+
+let selected="subhan";
+let count=0;
+
+let sound=
+  localStorage.getItem(
+    "count_sound"
+  )!=="0";
+
+let vibrate=
+  localStorage.getItem(
+    "count_vibrate"
+  )!=="0";
+
+let totals=
+  JSON.parse(
+    localStorage.getItem(
+      "ibadat_totals"
+    ) ||
+    '{"totalSalavat":0,"totalSubhan":0,"totalHamd":0,"totalAllah":0}'
+  );
+
+const select=
+  document.getElementById(
+    "dhikrSelect"
+  );
+
+const customBox=
+  document.getElementById(
+    "customBox"
+  );
+
+const customName=
+  document.getElementById(
+    "customName"
+  );
+
+const customLimit=
+  document.getElementById(
+    "customLimit"
+  );
+
+const tasbih=
+  document.getElementById(
+    "tasbih"
+  );
+
+const countEl=
+  document.getElementById(
+    "count"
+  );
+
+const currentDhikr=
+  document.getElementById(
+    "currentDhikr"
+  );
+
+const limitText=
+  document.getElementById(
+    "limitText"
+  );
+
+const progressBar=
+  document.getElementById(
+    "progressBar"
+  );
+
+function faNumber(n){
+
+  return String(n)
+    .replace(
+      /\d/g,
+      d=>"۰۱۲۳۴۵۶۷۸۹"[d]
+    );
+}
+
+function saveTotals(){
+
+  localStorage.setItem(
+    "ibadat_totals",
+    JSON.stringify(totals)
+  );
+}
+
+function getConfig(){
+
+  if(selected==="custom"){
+
+    let name=
+      customName.value.trim();
+
+    if(!name){
+      name="ذکر دلخواه";
+    }
+
+    let limit=
+      parseInt(
+        customLimit.value
+      );
+
+    if(
+      isNaN(limit) ||
+      limit<0
+    ){
+      limit=0;
+    }
+
+    return{
+      name,
+      limit,
+      stat:null
+    };
+
+  }
+
+  return dhikrData[selected];
+}
+
+function loadCount(){
+
+  const key=
+    "count_"+selected;
+
+  count=
+    parseInt(
+      localStorage.getItem(key)
+      ||"0"
+    );
+
+  if(isNaN(count)){
+    count=0;
+  }
+
+  updateUI();
+}
+
+function saveCount(){
+
+  localStorage.setItem(
+    "count_"+selected,
+    count
+  );
+}
+
+function updateUI(){
+
+  const config=
+    getConfig();
+
+  countEl.textContent=
+    faNumber(count);
+
+  currentDhikr.textContent=
+    config.name;
+
+  if(config.limit>0){
+
+    limitText.textContent=
+      "هدف: "
+      +faNumber(config.limit);
+
+    progressBar.style.width=
+      Math.min(
+        100,
+        count/config.limit*100
+      )+"%";
+
+  }else{
+
+    limitText.textContent=
+      "هدف: نامحدود";
+
+    progressBar.style.width=
+      "0%";
+  }
+
+  document.getElementById(
+    "totalSalavat"
+  ).textContent=
+    faNumber(totals.totalSalavat);
+
+  document.getElementById(
+    "totalSubhan"
+  ).textContent=
+    faNumber(totals.totalSubhan);
+
+  document.getElementById(
+    "totalHamd"
+  ).textContent=
+    faNumber(totals.totalHamd);
+
+  document.getElementById(
+    "totalAllah"
+  ).textContent=
+    faNumber(totals.totalAllah);
+}
+
+function beep(){
+
+  if(!sound){
+    return;
+  }
+
+  createAudio();
+
+  if(!audioContext){
+    return;
+  }
+
+  const osc=
+    audioContext.createOscillator();
+
+  const gain=
+    audioContext.createGain();
+
+  osc.frequency.value=700;
+
+  gain.gain.value=.04;
+
+  osc.connect(gain);
+
+  gain.connect(
+    audioContext.destination
+  );
+
+  osc.start();
+
+  setTimeout(
+    ()=>{
+      try{
+        osc.stop();
+      }catch(e){}
+    },
+    55
+  );
+}
+
+function increment(){
+
+  const config=
+    getConfig();
+
+  if(
+    config.limit>0 &&
+    count>=config.limit
+  ){
+    return;
+  }
+
+  count++;
+
+  saveCount();
+
+  if(config.stat){
+
+    totals[config.stat]=
+      (totals[config.stat]||0)+1;
+
+    saveTotals();
+  }
+
+  beep();
+
+  if(vibrate &&
+     navigator.vibrate){
+
+    navigator.vibrate(20);
+  }
+
+  updateUI();
+
+  if(
+    config.limit>0 &&
+    count===config.limit
+  ){
+
+    if(vibrate &&
+       navigator.vibrate){
+
+      navigator.vibrate([
+        100,80,100,80,180
+      ]);
+    }
+
+    setTimeout(
+      ()=>{
+        alert(
+          "✅ "
+          +config.name
+          +"\n\nتعداد "
+          +config.limit
+          +" کامل شد."
+        );
+      },
+      100
+    );
+  }
+}
+
+function decrement(){
+
+  if(count<=0){
+    return;
+  }
+
+  const config=
+    getConfig();
+
+  count--;
+
+  if(config.stat){
+
+    totals[config.stat]=
+      Math.max(
+        0,
+        (totals[config.stat]||0)-1
+      );
+
+    saveTotals();
+  }
+
+  saveCount();
+  updateUI();
+}
+
+tasbih.addEventListener(
+  "click",
+  increment
+);
+
+/* حرکت انگشت روی تسبیح */
+
+let dragging=false;
+let lastX=0;
+let lastY=0;
+let moveDistance=0;
+
+tasbih.addEventListener(
+  "pointerdown",
+  e=>{
+
+    dragging=true;
+
+    lastX=e.clientX;
+    lastY=e.clientY;
+
+    moveDistance=0;
+
+    tasbih.setPointerCapture(
+      e.pointerId
+    );
+
+  }
+);
+
+tasbih.addEventListener(
+  "pointermove",
+  e=>{
+
+    if(!dragging){
+      return;
+    }
+
+    const dx=
+      e.clientX-lastX;
+
+    const dy=
+      e.clientY-lastY;
+
+    const dist=
+      Math.sqrt(
+        dx*dx+dy*dy
+      );
+
+    moveDistance+=dist;
+
+    lastX=e.clientX;
+    lastY=e.clientY;
+
+    if(moveDistance>=45){
+
+      moveDistance=0;
+
+      increment();
+    }
+
+  }
+);
+
+tasbih.addEventListener(
+  "pointerup",
+  ()=>{
+    dragging=false;
+  }
+);
+
+tasbih.addEventListener(
+  "pointercancel",
+  ()=>{
+    dragging=false;
+  }
+);
+
+select.addEventListener(
+  "change",
+  ()=>{
+
+    selected=
+      select.value;
+
+    customBox.classList.toggle(
+      "hidden",
+      selected!=="custom"
+    );
+
+    loadCount();
+
+  }
+);
+
+customName.addEventListener(
+  "input",
+  updateUI
+);
+
+customLimit.addEventListener(
+  "input",
+  updateUI
+);
 
 document.getElementById(
-"mapBox"
-).classList
-.remove("hidden");
+  "minusBtn"
+).addEventListener(
+  "click",
+  decrement
+);
 
-if(!map){
+document.getElementById(
+  "resetBtn"
+).addEventListener(
+  "click",
+  ()=>{
 
-document.getElementById("mapBtn").click();
+    const config=
+      getConfig();
 
+    if(
+      !confirm(
+        "شمارنده «"
+        +config.name
+        +"» صفر شود؟"
+      )
+    ){
+      return;
+    }
+
+    if(config.stat){
+
+      totals[config.stat]=
+        Math.max(
+          0,
+          (totals[config.stat]||0)-count
+        );
+
+      saveTotals();
+    }
+
+    count=0;
+
+    saveCount();
+
+    updateUI();
+
+  }
+);
+
+document.getElementById(
+  "clearAllBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    if(
+      !confirm(
+        "تمام آمار و شمارنده‌ها پاک شوند؟"
+      )
+    ){
+      return;
+    }
+
+    localStorage.clear();
+
+    totals={
+      totalSalavat:0,
+      totalSubhan:0,
+      totalHamd:0,
+      totalAllah:0
+    };
+
+    count=0;
+
+    sound=true;
+    vibrate=true;
+    adhanEnabled=true;
+
+    updateAdhanButton();
+
+    updateUI();
+
+  }
+);
+
+document.getElementById(
+  "seniorBtn"
+).addEventListener(
+  "click",
+  function(){
+
+    document.body.classList.toggle(
+      "senior"
+    );
+
+    const active=
+      document.body.classList.contains(
+        "senior"
+      );
+
+    this.textContent=
+      active
+      ? "🧓 حالت سالمندان فعال است"
+      : "🧓 فعال کردن حالت سالمندان";
+
+    localStorage.setItem(
+      "senior_mode",
+      active?"1":"0"
+    );
+
+  }
+);
+
+document.getElementById(
+  "soundBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    sound=!sound;
+
+    localStorage.setItem(
+      "count_sound",
+      sound?"1":"0"
+    );
+
+    document.getElementById(
+      "soundBtn"
+    ).textContent=
+      sound
+      ? "🔊 صدای شمارش: روشن"
+      : "🔇 صدای شمارش: خاموش";
+
+  }
+);
+
+document.getElementById(
+  "vibrateBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    vibrate=!vibrate;
+
+    localStorage.setItem(
+      "count_vibrate",
+      vibrate?"1":"0"
+    );
+
+    document.getElementById(
+      "vibrateBtn"
+    ).textContent=
+      vibrate
+      ? "📳 لرزش: روشن"
+      : "📴 لرزش: خاموش";
+
+  }
+);
+
+/* =========================
+   راه‌اندازی
+========================= */
+
+const savedCity=
+  localStorage.getItem(
+    "prayer_city"
+  );
+
+const savedCountry=
+  localStorage.getItem(
+    "prayer_country"
+  );
+
+if(savedCity && savedCountry){
+
+  prayerCity=savedCity;
+  prayerCountry=savedCountry;
+
+  const option=
+    [...citySelect.options]
+      .find(
+        o=>o.value===
+          savedCity+"|"+savedCountry
+      );
+
+  if(option){
+    citySelect.value=option.value;
+  }
 }
 
-if(map){
-
-map.setView(
-[lat,lon],
-12
-);
-
-marker.setLatLng(
-[lat,lon]
-);
-
-}
-
-calcPrayerTimes();
-
-renderTimes();
-
-toast(
-"شهر پیدا و انتخاب شد"
-);
-
-}
-
-catch(e){
-
-toast(
-"خطا در جستجوی شهر؛ اینترنت را بررسی کنید"
-);
-
-}
-
-};
-
-function toggle(id,btn){
-
-document
-.getElementById(id)
-.classList
-.toggle("hidden");
-
-btn.textContent=
-btn.textContent.includes("▼")
-?
-btn.textContent.replace("▼","▲")
-:
-btn.textContent.replace("▲","▼");
-
-}
-
-document.getElementById("prayerMenu")
-.onclick=()=>
-toggle(
-"prayerPanel",
-document.getElementById("prayerMenu")
-);
-
-document.getElementById("quranMenu")
-.onclick=()=>{
-
-let p=
-document.getElementById("quranPanel");
-
-toggle(
-"quranPanel",
-document.getElementById("quranMenu")
-);
-
-if(!p.dataset.loaded){
-
-p.innerHTML=
-Array.from(
-{length:114},
-(_,i)=>
-`
-<button
-class="sectionBtn surah"
-data-n="${i+1}">
-سوره ${fa(i+1)}
-</button>
-`
-).join("");
-
-p.dataset.loaded=1;
-
-}
-
-};
-
-document.getElementById("duaMenu")
-.onclick=()=>
-toggle(
-"duaPanel",
-document.getElementById("duaMenu")
-);
-
-document
-.querySelectorAll(".dua")
-.forEach(
-b=>
-b.onclick=()=>{
-
-const names={
-
-morning:"دعای صبح",
-evening:"دعای شب",
-tawassul:"دعای توسل",
-faraj:"دعای فرج",
-komail:"دعای کمیل",
-ashura:"زیارت عاشورا",
-nadbe:"دعای ندبه"
-
-};
-
-document.getElementById("duaText")
-.innerHTML=
-`
-<b>${names[b.dataset.dua]}</b>
-<br><br>
-متن این بخش در نسخه فعلی آماده اتصال به متن کامل مفاتیح است.
-`;
-
-}
-);
-
-document
-.getElementById("quranPanel")
-.addEventListener(
-"click",
-e=>{
-
-let b=
-e.target.closest(".surah");
-
-if(!b)
-return;
-
-document
-.getElementById("quranPanel")
-.insertAdjacentHTML(
-"afterbegin",
-
-`
-<div class="info">
-📖 سوره ${b.dataset.n}
-<br>
-برای نمایش متن کامل، محتوای قرآن باید به‌صورت فایل داخلی برنامه اضافه شود.
-</div>
-`
-
-);
-
-}
-);
-
-let rk=0;
-let rkMax=2;
-
-document.getElementById("prayerType")
-.onchange=e=>{
-
-rk=0;
-
-rkMax={
-fajr:2,
-zuhr:4,
-asr:4,
-maghrib:3,
-isha:4,
-custom:2
-}[e.target.value];
-
-updateRakah();
-
-};
-
-function updateRakah(){
-
-document.getElementById("rakah")
-.textContent=
-fa(rk)+" / "+fa(rkMax);
-
-}
-
-document.getElementById("nextRakah")
-.onclick=()=>{
-
-if(rk<rkMax)
-rk++;
-
-updateRakah();
-
-if(rk===rkMax)
-toast("نماز به پایان رسید");
-
-};
-
-document.getElementById("resetRakah")
-.onclick=()=>{
-
-rk=0;
-
-updateRakah();
-
-};
-
-document.getElementById("countMethod")
-.onchange=e=>{
-
-let s=
-document.getElementById("voiceStatus");
+updateAdhanButton();
 
 if(
-e.target.value==="voice"
+  localStorage.getItem(
+    "senior_mode"
+  )==="1"
 ){
 
-s.classList
-.remove("hidden");
+  document.body.classList.add(
+    "senior"
+  );
 
-s.textContent=
-"🎙 برای تشخیص صوت باید اجازه میکروفون بدهید؛ این قابلیت وابسته به پشتیبانی مرورگر است.";
-
-}
-else{
-
-s.classList
-.add("hidden");
-
+  document.getElementById(
+    "seniorBtn"
+  ).textContent=
+    "🧓 حالت سالمندان فعال است";
 }
 
-};
+if(!sound){
 
-let dc=
-Number(
-localStorage.getItem("dhikrCount")||0
-);
+  document.getElementById(
+    "soundBtn"
+  ).textContent=
+    "🔇 صدای شمارش: خاموش";
+}
 
-document.getElementById("dhikrAdd")
-.onclick=()=>{
+if(!vibrate){
 
-dc++;
+  document.getElementById(
+    "vibrateBtn"
+  ).textContent=
+    "📴 لرزش: خاموش";
+}
 
-document.getElementById("dhikrCount")
-.textContent=
-fa(dc);
+loadPrayerTimes();
 
-localStorage.setItem(
-"dhikrCount",
-dc
-);
-
-};
-
-document.getElementById("dhikrCount")
-.textContent=
-fa(dc);
-
-document.getElementById("darkBtn")
-.onclick=()=>{
-
-document.body
-.classList
-.toggle("dark");
-
-document.getElementById("darkBtn")
-.textContent=
-document.body.classList.contains("dark")
-?
-"🌙 حالت شب"
-:
-"☀️ حالت روز";
-
-};
-
-dateInfo();
-
-calcPrayerTimes();
-
-renderTimes();
-
-updateRakah();
-
-updateNext();
-
-document.getElementById("autoAzan")
-.textContent=
-autoAzan
-?
-"🔊 پخش خودکار اذان: روشن"
-:
-"🔇 پخش خودکار اذان: خاموش";
-
-document.getElementById("noticeBtn")
-.textContent=
-notify
-?
-"🔔 اعلان زمان اذان: روشن"
-:
-"🔔 اعلان زمان اذان: خاموش";
+loadCount();
 
 setInterval(
-updateNext,
-1000
+  ()=>{
+    updateNextPrayer();
+    checkAdhan();
+  },
+  1000
+);
+
+/*
+  هر چند ساعت یک بار اوقات شرعی
+  دوباره گرفته می‌شود تا تغییر روز
+  باعث قدیمی ماندن اطلاعات نشود.
+*/
+setInterval(
+  loadPrayerTimes,
+  3*60*60*1000
 );
 
 </script>
