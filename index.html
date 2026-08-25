@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#123f32">
 
 <title>عبادت من</title>
 
@@ -12,194 +13,437 @@
   -webkit-tap-highlight-color:transparent;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
+  min-height:100vh;
   font-family:Tahoma,Arial,sans-serif;
-  background:#f4f7f6;
-  color:#17201d;
+  color:#17241f;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(201,163,74,.12),transparent 28%),
+    radial-gradient(circle at 90% 80%,rgba(23,107,77,.12),transparent 30%),
+    #eef3ef;
 }
 
-.app{
-  max-width:600px;
-  margin:auto;
-  padding:14px;
-}
-
-.header{
-  background:#176b4d;
-  color:white;
-  border-radius:20px;
-  padding:18px;
-  text-align:center;
-  margin-bottom:14px;
-}
-
-.header h1{
-  margin:0 0 7px;
-  font-size:25px;
-}
-
-.header p{
-  margin:0;
-  opacity:.9;
-}
-
-.card{
-  background:white;
-  border-radius:20px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 4px 16px rgba(0,0,0,.07);
-}
-
-.title{
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-
+button,
 select,
-input,
-button{
-  width:100%;
-  min-height:50px;
-  border-radius:14px;
-  border:1px solid #d5ddd9;
-  font-size:17px;
-  padding:10px;
-  background:white;
+input{
+  font-family:inherit;
 }
 
 button{
   cursor:pointer;
+}
+
+.app{
+  width:100%;
+  max-width:620px;
+  margin:auto;
+  padding:12px;
+}
+
+/* =========================
+   KETABE DESIGN
+========================= */
+
+.header{
+  position:relative;
+  overflow:hidden;
+  padding:24px 16px 22px;
+  text-align:center;
+  color:#fff;
+  border-radius:24px;
+  background:
+    linear-gradient(145deg,#0e4d3a,#176b4d 55%,#0d4434);
+  border:3px solid #c7a75b;
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.15),
+    inset 0 0 0 2px rgba(255,255,255,.08);
+}
+
+.header:before,
+.header:after{
+  content:"✦";
+  position:absolute;
+  color:#d8bd72;
+  font-size:42px;
+  opacity:.45;
+}
+
+.header:before{
+  right:18px;
+  top:10px;
+}
+
+.header:after{
+  left:18px;
+  bottom:5px;
+}
+
+.header .ornament{
+  color:#d8bd72;
+  font-size:17px;
+  letter-spacing:7px;
+  margin-bottom:7px;
+}
+
+.header h1{
+  margin:0;
+  font-size:30px;
+  text-shadow:0 2px 4px rgba(0,0,0,.3);
+}
+
+.header p{
+  margin:8px 0 0;
+  font-size:14px;
+  opacity:.9;
+}
+
+.card{
+  background:rgba(255,255,255,.94);
+  border-radius:22px;
+  padding:16px;
+  margin-top:14px;
+  border:1px solid #d9e2dc;
+  box-shadow:0 5px 18px rgba(0,0,0,.07);
+}
+
+.sectionTitle{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:19px;
   font-weight:bold;
+  margin-bottom:13px;
+  color:#174b39;
 }
 
-.mainBtn{
-  background:#176b4d;
-  color:white;
-  border:0;
+/* =========================
+   PRAYER TIMES
+========================= */
+
+.prayerBox{
+  background:
+    linear-gradient(135deg,#f8f1dc,#fffaf0);
+  border:1px solid #d8bd72;
 }
 
-.secondary{
-  background:#edf3f0;
+.city{
+  display:flex;
+  gap:9px;
+  margin-bottom:12px;
 }
 
-.danger{
-  background:#fff0f0;
-  color:#a11;
+select,
+input{
+  width:100%;
+  min-height:50px;
+  padding:10px 12px;
+  border:1px solid #d2ddd7;
+  border-radius:14px;
+  background:#fff;
+  font-size:16px;
+  color:#17241f;
 }
 
-.row{
+.prayerTimes{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.prayer{
+  text-align:center;
+  background:#fff;
+  border-radius:14px;
+  padding:10px 5px;
+  border:1px solid #e3e8e5;
+}
+
+.prayer span{
+  display:block;
+  color:#68766f;
+  font-size:12px;
+}
+
+.prayer b{
+  display:block;
+  color:#174b39;
+  font-size:18px;
+  margin-top:5px;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.menuGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
 
+.menuBtn{
+  min-height:78px;
+  border:0;
+  border-radius:18px;
+  color:#174b39;
+  background:#f1f6f3;
+  border:1px solid #d7e3dc;
+  font-size:17px;
+  font-weight:bold;
+  transition:.15s;
+}
+
+.menuBtn:active{
+  transform:scale(.97);
+}
+
+.menuBtn .icon{
+  display:block;
+  font-size:29px;
+  margin-bottom:5px;
+}
+
+/* =========================
+   TASBIH
+========================= */
+
+.tasbihCard{
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(216,189,114,.12),transparent 40%),
+    #fff;
+}
+
+.dhikr{
+  font-size:25px;
+  font-weight:bold;
+  color:#174b39;
+}
+
+.dhikrSub{
+  color:#718078;
+  margin-top:5px;
+  font-size:13px;
+}
+
 .tasbih{
-  width:min(82vw,360px);
-  height:min(82vw,360px);
-  max-width:360px;
-  max-height:360px;
-  margin:20px auto;
+  position:relative;
+  width:min(78vw,340px);
+  height:min(78vw,340px);
+  margin:18px auto;
   border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#fff,#e7eeea);
-  border:8px solid #176b4d;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
   user-select:none;
   touch-action:manipulation;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+  background:
+    radial-gradient(circle at 35% 27%,#fff,#e5eee9 62%,#d4e0da);
+
+  border:9px solid #176b4d;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.16),
+    inset 0 0 0 3px #c7a75b;
+}
+
+.tasbih:after{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border-radius:50%;
+  border:1px dashed rgba(23,107,77,.28);
+  pointer-events:none;
+}
+
+.tasbih.active{
+  transform:scale(.98);
 }
 
 .count{
-  font-size:72px;
+  position:relative;
+  z-index:2;
+  font-size:70px;
+  line-height:1;
   font-weight:bold;
   color:#176b4d;
 }
 
-.limit{
-  text-align:center;
+.countLabel{
+  position:relative;
+  z-index:2;
+  margin-top:10px;
   color:#68756f;
-  margin-top:-10px;
+  font-size:13px;
 }
 
-.dhikr{
-  text-align:center;
-  font-size:24px;
-  font-weight:bold;
-  margin-top:5px;
+.limit{
+  color:#68756f;
+  font-size:14px;
 }
 
 .progress{
-  height:10px;
+  height:9px;
+  margin:13px 0;
   background:#e5ebe8;
   border-radius:20px;
   overflow:hidden;
-  margin:14px 0;
 }
 
 .progress div{
   height:100%;
-  width:0%;
-  background:#176b4d;
+  width:0;
+  background:linear-gradient(90deg,#176b4d,#c7a75b);
   transition:.2s;
 }
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.btn{
+  min-height:50px;
+  border-radius:14px;
+  border:1px solid #d4ded9;
+  background:#edf3f0;
+  color:#174b39;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.btn.main{
+  background:#176b4d;
+  color:white;
+  border:0;
+}
+
+.btn.danger{
+  background:#fff1f1;
+  color:#a02727;
+  border-color:#f0cccc;
+}
+
+/* =========================
+   STATS
+========================= */
 
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
+  gap:9px;
 }
 
 .stat{
-  background:#f2f6f4;
-  border-radius:14px;
-  padding:14px;
+  padding:13px;
   text-align:center;
+  border-radius:15px;
+  background:#f3f7f5;
 }
 
 .stat b{
   display:block;
-  font-size:24px;
-  color:#176b4d;
   margin-top:5px;
+  font-size:23px;
+  color:#176b4d;
 }
 
-.small{
-  font-size:13px;
-  color:#66736e;
+/* =========================
+   CUSTOM
+========================= */
+
+.customBox{
+  display:none;
+  margin-top:10px;
 }
 
-.senior body{}
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  background:rgba(0,0,0,.48);
+  padding:10px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modalBox{
+  width:100%;
+  max-width:620px;
+  max-height:85vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:24px 24px 12px 12px;
+  padding:20px;
+  animation:up .2s ease;
+}
+
+@keyframes up{
+  from{
+    transform:translateY(30px);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0);
+    opacity:1;
+  }
+}
+
+.modalTitle{
+  font-size:22px;
+  font-weight:bold;
+  color:#174b39;
+  margin-bottom:12px;
+}
+
+.info{
+  background:#f2f7f4;
+  border-radius:15px;
+  padding:14px;
+  line-height:2;
+  margin-bottom:10px;
+}
+
+/* =========================
+   SENIOR
+========================= */
 
 body.senior{
   font-size:20px;
 }
 
 body.senior .header h1{
-  font-size:31px;
+  font-size:35px;
 }
 
-body.senior .title{
+body.senior .sectionTitle{
   font-size:25px;
 }
 
-body.senior button,
-body.senior select,
-body.senior input{
-  min-height:65px;
-  font-size:22px;
+body.senior .menuBtn{
+  min-height:100px;
+  font-size:21px;
 }
 
-body.senior .count{
-  font-size:90px;
-}
-
-body.senior .dhikr{
-  font-size:30px;
+body.senior .menuBtn .icon{
+  font-size:36px;
 }
 
 body.senior .tasbih{
@@ -207,11 +451,89 @@ body.senior .tasbih{
   height:min(88vw,390px);
 }
 
+body.senior .count{
+  font-size:90px;
+}
+
+body.senior .dhikr{
+  font-size:31px;
+}
+
+body.senior button,
+body.senior select,
+body.senior input{
+  min-height:65px;
+  font-size:21px;
+}
+
+/* =========================
+   DARK
+========================= */
+
+body.dark{
+  color:#eef5f1;
+  background:#0c1713;
+}
+
+body.dark .card{
+  background:#14241e;
+  border-color:#29463a;
+}
+
+body.dark .sectionTitle,
+body.dark .dhikr{
+  color:#d9c17a;
+}
+
+body.dark .stat,
+body.dark .menuBtn{
+  background:#1a3028;
+  border-color:#315345;
+  color:#e9f2ee;
+}
+
+body.dark select,
+body.dark input{
+  background:#102019;
+  color:#fff;
+  border-color:#315345;
+}
+
+body.dark .tasbih{
+  background:#172b23;
+}
+
+body.dark .prayerBox{
+  background:#2a2618;
+}
+
+body.dark .prayer{
+  background:#182a23;
+  border-color:#315345;
+}
+
+body.dark .prayer b{
+  color:#d9c17a;
+}
+
+body.dark .btn{
+  background:#20372e;
+  color:#fff;
+}
+
+body.dark .footer{
+  color:#9aac a4;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
 .footer{
   text-align:center;
   color:#718079;
-  padding:20px 0;
-  font-size:13px;
+  font-size:12px;
+  padding:22px 5px;
 }
 </style>
 </head>
@@ -220,54 +542,183 @@ body.senior .tasbih{
 
 <div class="app">
 
-  <div class="header">
+  <!-- HEADER -->
+
+  <header class="header">
+    <div class="ornament">✦ ✦ ✦</div>
     <h1>🕌 عبادت من</h1>
-    <p>تسبیح و شمارش اذکار</p>
-  </div>
+    <p>ذکر • نماز • قرآن • دعا • آرامش</p>
+  </header>
 
-  <div class="card">
+  <!-- PRAYER -->
 
-    <div class="title">📿 انتخاب ذکر</div>
+  <section class="card prayerBox">
 
-    <select id="dhikrSelect">
-      <option value="subhan">سبحان‌الله — ۳۳</option>
-      <option value="hamd">الحمدلله — ۳۳</option>
-      <option value="allah">الله‌اکبر — ۳۴</option>
-      <option value="salavat">صلوات — ۱۰۰</option>
-      <option value="custom">ذکر دلخواه</option>
-      <option value="unlimited">شمارش نامحدود</option>
-    </select>
-
-    <div id="customBox" style="display:none;margin-top:10px">
-      <input id="customName" placeholder="نام ذکر">
-      <input id="customLimit"
-             type="number"
-             min="0"
-             placeholder="تعداد هدف، خالی = نامحدود"
-             style="margin-top:8px">
+    <div class="sectionTitle">
+      🕌 اوقات شرعی
     </div>
 
-  </div>
+    <div class="city">
+      <select id="citySelect">
+        <option value="mashhad">مشهد</option>
+        <option value="tehran">تهران</option>
+        <option value="qom">قم</option>
+        <option value="tabriz">تبریز</option>
+        <option value="isfahan">اصفهان</option>
+        <option value="shiraz">شیراز</option>
+        <option value="maku">ماکو</option>
+        <option value="other">شهر دیگر</option>
+      </select>
+    </div>
 
-  <div class="card">
+    <div class="prayerTimes">
+
+      <div class="prayer">
+        <span>صبح</span>
+        <b id="fajr">04:30</b>
+      </div>
+
+      <div class="prayer">
+        <span>ظهر</span>
+        <b id="dhuhr">12:10</b>
+      </div>
+
+      <div class="prayer">
+        <span>مغرب</span>
+        <b id="maghrib">19:20</b>
+      </div>
+
+    </div>
+
+    <button class="btn main" id="azanBtn" style="margin-top:10px">
+      🔔 هشدار اذان: روشن
+    </button>
+
+  </section>
+
+  <!-- MENU -->
+
+  <section class="card">
+
+    <div class="sectionTitle">
+      🌙 امکانات
+    </div>
+
+    <div class="menuGrid">
+
+      <button class="menuBtn" id="quranBtn">
+        <span class="icon">📖</span>
+        قرآن
+      </button>
+
+      <button class="menuBtn" id="prayerBtn">
+        <span class="icon">🧎</span>
+        نماز
+      </button>
+
+      <button class="menuBtn" id="dhikrBtn">
+        <span class="icon">🤲</span>
+        اذکار روزانه
+      </button>
+
+      <button class="menuBtn" id="donateBtn">
+        <span class="icon">❤️</span>
+        صدقه و کمک
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- TASBIH -->
+
+  <section class="card tasbihCard">
+
+    <div class="sectionTitle">
+      📿 تسبیح
+    </div>
+
+    <select id="dhikrSelect">
+
+      <option value="subhan">
+        سبحان‌الله — ۳۳
+      </option>
+
+      <option value="hamd">
+        الحمدلله — ۳۳
+      </option>
+
+      <option value="allah">
+        الله‌اکبر — ۳۴
+      </option>
+
+      <option value="salavat">
+        صلوات — ۱۰۰
+      </option>
+
+      <option value="custom">
+        ذکر دلخواه
+      </option>
+
+      <option value="unlimited">
+        شمارش نامحدود
+      </option>
+
+    </select>
+
+    <div class="customBox" id="customBox">
+
+      <input
+        id="customName"
+        placeholder="نام ذکر"
+      >
+
+      <input
+        id="customLimit"
+        type="number"
+        min="0"
+        placeholder="هدف؛ خالی = نامحدود"
+        style="margin-top:8px"
+      >
+
+    </div>
 
     <div class="dhikr" id="currentDhikr">
       سبحان‌الله
+    </div>
+
+    <div class="dhikrSub">
+      برای شمارش، دایره را لمس کنید
     </div>
 
     <div
       class="tasbih"
       id="tasbih"
       role="button"
-      aria-label="برای شمارش لمس کنید"
+      aria-label="شمارش تسبیح"
     >
+
       <div>
-        <div class="count" id="count">0</div>
-        <div class="small">برای شمارش لمس کنید</div>
+
+        <div
+          class="count"
+          id="count"
+        >
+          0
+        </div>
+
+        <div class="countLabel">
+          لمس برای شمارش
+        </div>
+
       </div>
+
     </div>
 
-    <div class="limit" id="limitText">
+    <div
+      class="limit"
+      id="limitText"
+    >
       هدف: ۳۳
     </div>
 
@@ -276,20 +727,32 @@ body.senior .tasbih{
     </div>
 
     <div class="row">
-      <button class="secondary" id="minusBtn">
+
+      <button
+        class="btn"
+        id="minusBtn"
+      >
         − یک عدد
       </button>
 
-      <button class="danger" id="resetBtn">
-        صفر کردن
+      <button
+        class="btn danger"
+        id="resetBtn"
+      >
+        🔄 صفر کردن
       </button>
+
     </div>
 
-  </div>
+  </section>
 
-  <div class="card">
+  <!-- STATS -->
 
-    <div class="title">📊 آمار من</div>
+  <section class="card">
+
+    <div class="sectionTitle">
+      📊 آمار من
+    </div>
 
     <div class="stats">
 
@@ -315,163 +778,326 @@ body.senior .tasbih{
 
     </div>
 
-  </div>
+  </section>
 
-  <div class="card">
+  <!-- SENIOR -->
 
-    <div class="title">🧓 حالت سالمندان</div>
+  <section class="card">
 
-    <button class="mainBtn" id="seniorBtn">
+    <div class="sectionTitle">
+      🧓 حالت سالمندان
+    </div>
+
+    <button
+      class="btn main"
+      id="seniorBtn"
+    >
       فعال کردن حالت سالمندان
     </button>
 
-  </div>
+  </section>
 
-  <div class="card">
+  <!-- SETTINGS -->
 
-    <div class="title">⚙️ تنظیمات</div>
+  <section class="card">
+
+    <div class="sectionTitle">
+      ⚙️ تنظیمات
+    </div>
 
     <div class="row">
 
-      <button class="secondary" id="soundBtn">
+      <button
+        class="btn"
+        id="soundBtn"
+      >
         🔊 صدای شمارش: روشن
       </button>
 
-      <button class="danger" id="clearAllBtn">
-        پاک کردن همه آمار
+      <button
+        class="btn"
+        id="darkBtn"
+      >
+        🌙 حالت شب
       </button>
 
     </div>
 
-  </div>
+    <button
+      class="btn danger"
+      id="clearAllBtn"
+      style="margin-top:9px"
+    >
+      🗑 پاک کردن همه آمار
+    </button>
+
+  </section>
 
   <div class="footer">
-    نسخه آزمایشی ۱ — اطلاعات شمارش روی همین گوشی ذخیره می‌شود.
+    نسخه آزمایشی عبادت من<br>
+    اطلاعات شمارش روی همین گوشی ذخیره می‌شود.
   </div>
 
 </div>
 
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="modalBox">
+
+    <div
+      class="modalTitle"
+      id="modalTitle"
+    >
+      عنوان
+    </div>
+
+    <div
+      id="modalContent"
+    >
+    </div>
+
+    <button
+      class="btn main"
+      id="closeModal"
+    >
+      بستن
+    </button>
+
+  </div>
+
+</div>
+
+
 <script>
 
+/* =========================
+   DATA
+========================= */
+
 const dhikrData = {
+
   subhan:{
     name:"سبحان‌الله",
     limit:33,
     stat:"totalSubhan"
   },
+
   hamd:{
     name:"الحمدلله",
     limit:33,
     stat:"totalHamd"
   },
+
   allah:{
     name:"الله‌اکبر",
     limit:34,
     stat:"totalAllah"
   },
+
   salavat:{
     name:"صلوات",
     limit:100,
     stat:"totalSalavat"
   },
+
   unlimited:{
     name:"شمارش نامحدود",
     limit:0,
     stat:null
   }
+
 };
+
+
+/* =========================
+   STATE
+========================= */
 
 let selected="subhan";
 let count=0;
-let sound=true;
 
-let totals=JSON.parse(
-  localStorage.getItem("ibadat_totals") ||
-  '{"totalSalavat":0,"totalSubhan":0,"totalHamd":0,"totalAllah":0}'
-);
+let sound =
+  localStorage.getItem("count_sound") !== "0";
 
-const select=document.getElementById("dhikrSelect");
-const customBox=document.getElementById("customBox");
-const customName=document.getElementById("customName");
-const customLimit=document.getElementById("customLimit");
+let azan =
+  localStorage.getItem("azan_enabled") !== "0";
 
-const tasbih=document.getElementById("tasbih");
-const countEl=document.getElementById("count");
-const currentDhikr=document.getElementById("currentDhikr");
-const limitText=document.getElementById("limitText");
-const progressBar=document.getElementById("progressBar");
+let totals;
 
-const soundBtn=document.getElementById("soundBtn");
+try{
+
+  totals=JSON.parse(
+    localStorage.getItem("ibadat_totals") || "{}"
+  );
+
+}catch(e){
+
+  totals={};
+
+}
+
+totals={
+  totalSalavat:Number(totals.totalSalavat)||0,
+  totalSubhan:Number(totals.totalSubhan)||0,
+  totalHamd:Number(totals.totalHamd)||0,
+  totalAllah:Number(totals.totalAllah)||0
+};
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const select=
+  document.getElementById("dhikrSelect");
+
+const customBox=
+  document.getElementById("customBox");
+
+const customName=
+  document.getElementById("customName");
+
+const customLimit=
+  document.getElementById("customLimit");
+
+const tasbih=
+  document.getElementById("tasbih");
+
+const countEl=
+  document.getElementById("count");
+
+const currentDhikr=
+  document.getElementById("currentDhikr");
+
+const limitText=
+  document.getElementById("limitText");
+
+const progressBar=
+  document.getElementById("progressBar");
+
+const soundBtn=
+  document.getElementById("soundBtn");
+
+const azanBtn=
+  document.getElementById("azanBtn");
+
+
+/* =========================
+   STORAGE
+========================= */
 
 function saveTotals(){
+
   localStorage.setItem(
     "ibadat_totals",
     JSON.stringify(totals)
   );
-}
 
-function getConfig(){
-
-  if(selected==="custom"){
-
-    let name=customName.value.trim();
-
-    if(!name){
-      name="ذکر دلخواه";
-    }
-
-    let limit=parseInt(customLimit.value);
-
-    if(isNaN(limit) || limit<0){
-      limit=0;
-    }
-
-    return {
-      name:name,
-      limit:limit,
-      stat:null
-    };
-  }
-
-  return dhikrData[selected];
-}
-
-function loadCount(){
-
-  const key="count_"+selected;
-
-  count=parseInt(
-    localStorage.getItem(key) || "0"
-  );
-
-  if(isNaN(count)){
-    count=0;
-  }
-
-  updateUI();
 }
 
 function saveCount(){
 
   localStorage.setItem(
     "count_"+selected,
-    count
+    String(count)
   );
+
 }
+
+
+/* =========================
+   CONFIG
+========================= */
+
+function getConfig(){
+
+  if(selected==="custom"){
+
+    let name=
+      customName.value.trim();
+
+    if(!name){
+      name="ذکر دلخواه";
+    }
+
+    let limit=
+      parseInt(customLimit.value,10);
+
+    if(
+      Number.isNaN(limit) ||
+      limit<0
+    ){
+      limit=0;
+    }
+
+    return{
+      name:name,
+      limit:limit,
+      stat:null
+    };
+
+  }
+
+  return dhikrData[selected];
+
+}
+
+
+/* =========================
+   LOAD
+========================= */
+
+function loadCount(){
+
+  count=
+    parseInt(
+      localStorage.getItem(
+        "count_"+selected
+      ) || "0",
+      10
+    );
+
+  if(
+    Number.isNaN(count) ||
+    count<0
+  ){
+    count=0;
+  }
+
+  updateUI();
+
+}
+
+
+/* =========================
+   UI
+========================= */
 
 function updateUI(){
 
-  const config=getConfig();
+  const config=
+    getConfig();
 
-  countEl.textContent=count;
-  currentDhikr.textContent=config.name;
+  countEl.textContent=
+    count;
+
+  currentDhikr.textContent=
+    config.name;
 
   if(config.limit>0){
 
     limitText.textContent=
       "هدف: "+config.limit;
 
-    let percent=
+    const percent=
       Math.min(
         100,
         (count/config.limit)*100
@@ -485,65 +1111,176 @@ function updateUI(){
     limitText.textContent=
       "هدف: نامحدود";
 
-    progressBar.style.width="0%";
+    progressBar.style.width=
+      "0%";
+
   }
 
-  document.getElementById("totalSalavat")
-    .textContent=totals.totalSalavat;
+  document.getElementById(
+    "totalSalavat"
+  ).textContent=
+    totals.totalSalavat;
 
-  document.getElementById("totalSubhan")
-    .textContent=totals.totalSubhan;
+  document.getElementById(
+    "totalSubhan"
+  ).textContent=
+    totals.totalSubhan;
 
-  document.getElementById("totalHamd")
-    .textContent=totals.totalHamd;
+  document.getElementById(
+    "totalHamd"
+  ).textContent=
+    totals.totalHamd;
 
-  document.getElementById("totalAllah")
-    .textContent=totals.totalAllah;
+  document.getElementById(
+    "totalAllah"
+  ).textContent=
+    totals.totalAllah;
+
 }
 
-function beep(){
 
-  if(!sound) return;
+/* =========================
+   AUDIO
+   IMPORTANT:
+   ONE AudioContext
+========================= */
+
+let audioContext=null;
+
+function initAudio(){
+
+  if(audioContext){
+    return;
+  }
+
+  const AC=
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+  if(!AC){
+    return;
+  }
 
   try{
 
-    const AudioContext=
-      window.AudioContext ||
-      window.webkitAudioContext;
+    audioContext=
+      new AC();
 
-    if(!AudioContext) return;
+  }catch(e){
 
-    const ctx=new AudioContext();
+    audioContext=null;
 
-    const osc=ctx.createOscillator();
-    const gain=ctx.createGain();
+  }
 
-    osc.frequency.value=700;
-    gain.gain.value=.04;
+}
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
 
-    osc.start();
+function beep(){
 
-    setTimeout(()=>{
-      osc.stop();
-      ctx.close();
-    },45);
+  if(!sound){
+    return;
+  }
+
+  initAudio();
+
+  if(!audioContext){
+    return;
+  }
+
+  try{
+
+    if(
+      audioContext.state==="suspended"
+    ){
+
+      audioContext.resume();
+
+    }
+
+    const oscillator=
+      audioContext.createOscillator();
+
+    const gain=
+      audioContext.createGain();
+
+    oscillator.type="sine";
+
+    oscillator.frequency.setValueAtTime(
+      720,
+      audioContext.currentTime
+    );
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.045,
+      audioContext.currentTime+0.008
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioContext.currentTime+0.07
+    );
+
+    oscillator.connect(gain);
+
+    gain.connect(
+      audioContext.destination
+    );
+
+    oscillator.start();
+
+    oscillator.stop(
+      audioContext.currentTime+0.08
+    );
 
   }catch(e){}
+
 }
+
+
+/* =========================
+   INCREMENT
+========================= */
+
+let lastCountTime=0;
 
 function increment(){
 
-  const config=getConfig();
+  const now=
+    Date.now();
+
+  /*
+   Prevent accidental double counting
+   caused by touch + click.
+  */
+
+  if(
+    now-lastCountTime<180
+  ){
+    return;
+  }
+
+  lastCountTime=now;
+
+  const config=
+    getConfig();
 
   if(
     config.limit>0 &&
     count>=config.limit
   ){
+
+    finishBeep();
+
     return;
+
   }
+
+  initAudio();
 
   count++;
 
@@ -551,13 +1288,21 @@ function increment(){
 
   if(config.stat){
 
-    totals[config.stat] =
-      (totals[config.stat] || 0) + 1;
+    totals[config.stat]=
+      Number(totals[config.stat]||0)+1;
 
     saveTotals();
+
   }
 
   beep();
+
+  tasbih.classList.add("active");
+
+  setTimeout(()=>{
+    tasbih.classList.remove("active");
+  },100);
+
   updateUI();
 
   if(
@@ -565,94 +1310,307 @@ function increment(){
     count===config.limit
   ){
 
+    finishBeep();
+
     if(navigator.vibrate){
+
       navigator.vibrate([
-        100,80,100,80,180
+        100,
+        80,
+        100,
+        80,
+        180
       ]);
+
     }
 
     setTimeout(()=>{
+
       alert(
         "✅ "+config.name+
-        "\n\nتعداد "+config.limit+
+        "\n\nتعداد "+
+        config.limit+
         " کامل شد."
       );
-    },100);
+
+    },150);
+
   }
+
 }
+
+
+/* =========================
+   FINISH SOUND
+========================= */
+
+function finishBeep(){
+
+  if(!sound){
+    return;
+  }
+
+  initAudio();
+
+  if(!audioContext){
+    return;
+  }
+
+  try{
+
+    if(
+      audioContext.state==="suspended"
+    ){
+      audioContext.resume();
+    }
+
+    const t=
+      audioContext.currentTime;
+
+    [0,0.14,0.28].forEach(
+      (offset,index)=>{
+
+        const osc=
+          audioContext.createOscillator();
+
+        const gain=
+          audioContext.createGain();
+
+        osc.frequency.value=
+          index===2 ? 900 : 700;
+
+        gain.gain.setValueAtTime(
+          0.0001,
+          t+offset
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          0.055,
+          t+offset+0.01
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          t+offset+0.09
+        );
+
+        osc.connect(gain);
+        gain.connect(
+          audioContext.destination
+        );
+
+        osc.start(t+offset);
+        osc.stop(t+offset+0.1);
+
+      }
+    );
+
+  }catch(e){}
+
+}
+
+
+/* =========================
+   DECREMENT
+========================= */
 
 function decrement(){
 
-  if(count<=0) return;
+  if(count<=0){
+    return;
+  }
 
-  const config=getConfig();
+  const config=
+    getConfig();
 
   count--;
 
+  /*
+   The total history is also reduced
+   because the user explicitly corrected
+   a count.
+  */
+
   if(config.stat){
 
-    totals[config.stat] =
+    totals[config.stat]=
       Math.max(
         0,
-        (totals[config.stat] || 0)-1
+        Number(totals[config.stat]||0)-1
       );
 
     saveTotals();
+
   }
 
   saveCount();
+
   updateUI();
+
 }
 
-tasbih.addEventListener(
-  "click",
-  increment
-);
+
+/* =========================
+   RESET CURRENT COUNTER
+========================= */
+
+function resetCurrent(){
+
+  if(count===0){
+    alert("شمارنده همین ذکر از قبل صفر است.");
+    return;
+  }
+
+  const config=
+    getConfig();
+
+  const oldCount=
+    count;
+
+  if(!confirm(
+    "شمارنده «"+
+    config.name+
+    "» از "+
+    oldCount+
+    " به صفر برگردد؟"
+  )){
+    return;
+  }
+
+  /*
+   Explicit correction:
+   remove the current count from
+   its total history.
+  */
+
+  if(config.stat){
+
+    totals[config.stat]=
+      Math.max(
+        0,
+        Number(totals[config.stat]||0)
+        -oldCount
+      );
+
+    saveTotals();
+
+  }
+
+  count=0;
+
+  saveCount();
+
+  updateUI();
+
+}
+
+
+/* =========================
+   TOUCH
+========================= */
 
 let touchStartX=0;
 let touchStartY=0;
+let touchMoved=false;
 
 tasbih.addEventListener(
   "touchstart",
   e=>{
 
-    const t=e.touches[0];
+    initAudio();
+
+    const t=
+      e.changedTouches[0];
 
     touchStartX=t.clientX;
     touchStartY=t.clientY;
+
+    touchMoved=false;
 
   },
   {passive:true}
 );
 
+
 tasbih.addEventListener(
-  "touchend",
+  "touchmove",
   e=>{
 
-    const t=e.changedTouches[0];
+    const t=
+      e.changedTouches[0];
 
-    const dx=t.clientX-touchStartX;
-    const dy=t.clientY-touchStartY;
+    const dx=
+      t.clientX-touchStartX;
 
-    const distance=Math.sqrt(
-      dx*dx+dy*dy
-    );
+    const dy=
+      t.clientY-touchStartY;
 
-    if(distance>35){
-      increment();
+    if(
+      Math.sqrt(dx*dx+dy*dy)>18
+    ){
+      touchMoved=true;
     }
 
   },
   {passive:true}
 );
 
+
+tasbih.addEventListener(
+  "touchend",
+  e=>{
+
+    e.preventDefault();
+
+    /*
+     One count per completed touch.
+     Swipe also counts once.
+    */
+
+    increment();
+
+  },
+  {passive:false}
+);
+
+
+/*
+ Desktop / mouse support
+ */
+
+tasbih.addEventListener(
+  "click",
+  e=>{
+
+    /*
+     Ignore synthetic click
+     immediately after touch.
+    */
+
+    if(
+      Date.now()-lastCountTime<350
+    ){
+      return;
+    }
+
+    increment();
+
+  }
+);
+
+
+/* =========================
+   DHIKR SELECT
+========================= */
+
 select.addEventListener(
   "change",
   ()=>{
 
-    selected=select.value;
+    selected=
+      select.value;
 
-    customBox.style.display =
+    customBox.style.display=
       selected==="custom"
       ? "block"
       : "none";
@@ -661,6 +1619,11 @@ select.addEventListener(
 
   }
 );
+
+
+/* =========================
+   CUSTOM
+========================= */
 
 customName.addEventListener(
   "input",
@@ -672,138 +1635,548 @@ customLimit.addEventListener(
   updateUI
 );
 
-document.getElementById("minusBtn")
-  .addEventListener(
-    "click",
-    decrement
-  );
 
-document.getElementById("resetBtn")
-  .addEventListener(
-    "click",
-    ()=>{
+/* =========================
+   BUTTONS
+========================= */
 
-      if(!confirm(
-        "شمارنده این ذکر صفر شود؟"
-      )){
-        return;
-      }
+document.getElementById(
+  "minusBtn"
+).addEventListener(
+  "click",
+  decrement
+);
 
-      const config=getConfig();
 
-      if(config.stat){
+document.getElementById(
+  "resetBtn"
+).addEventListener(
+  "click",
+  resetCurrent
+);
 
-        totals[config.stat]=
-          Math.max(
-            0,
-            (totals[config.stat] || 0)-count
-          );
 
-        saveTotals();
-      }
+/* =========================
+   SOUND BUTTON
+========================= */
 
-      count=0;
+function updateSoundButton(){
 
-      saveCount();
-      updateUI();
-    }
-  );
+  soundBtn.textContent=
+    sound
+    ? "🔊 صدای شمارش: روشن"
+    : "🔇 صدای شمارش: خاموش";
 
-document.getElementById("clearAllBtn")
-  .addEventListener(
-    "click",
-    ()=>{
+}
 
-      if(!confirm(
-        "تمام آمار و شمارنده‌ها پاک شوند؟"
-      )){
-        return;
-      }
-
-      localStorage.clear();
-
-      totals={
-        totalSalavat:0,
-        totalSubhan:0,
-        totalHamd:0,
-        totalAllah:0
-      };
-
-      count=0;
-
-      updateUI();
-    }
-  );
-
-document.getElementById("seniorBtn")
-  .addEventListener(
-    "click",
-    function(){
-
-      document.body.classList.toggle(
-        "senior"
-      );
-
-      const active=
-        document.body.classList.contains(
-          "senior"
-        );
-
-      this.textContent=
-        active
-        ? "🧓 حالت سالمندان فعال است"
-        : "فعال کردن حالت سالمندان";
-
-      localStorage.setItem(
-        "senior_mode",
-        active ? "1" : "0"
-      );
-    }
-  );
 
 soundBtn.addEventListener(
   "click",
   ()=>{
 
-    sound=!sound;
+    initAudio();
 
-    soundBtn.textContent=
-      sound
-      ? "🔊 صدای شمارش: روشن"
-      : "🔇 صدای شمارش: خاموش";
+    sound=!sound;
 
     localStorage.setItem(
       "count_sound",
-      sound ? "1":"0"
+      sound ? "1" : "0"
+    );
+
+    updateSoundButton();
+
+    if(sound){
+      beep();
+    }
+
+  }
+);
+
+
+/* =========================
+   AZAN
+========================= */
+
+function updateAzanButton(){
+
+  azanBtn.textContent=
+    azan
+    ? "🔔 هشدار اذان: روشن"
+    : "🔕 هشدار اذان: خاموش";
+
+}
+
+
+azanBtn.addEventListener(
+  "click",
+  ()=>{
+
+    azan=!azan;
+
+    localStorage.setItem(
+      "azan_enabled",
+      azan ? "1":"0"
+    );
+
+    updateAzanButton();
+
+  }
+);
+
+
+/* =========================
+   SENIOR
+========================= */
+
+const seniorBtn=
+  document.getElementById(
+    "seniorBtn"
+  );
+
+
+function updateSeniorButton(){
+
+  const active=
+    document.body.classList.contains(
+      "senior"
+    );
+
+  seniorBtn.textContent=
+    active
+    ? "🧓 حالت سالمندان فعال است"
+    : "🧓 فعال کردن حالت سالمندان";
+
+}
+
+
+seniorBtn.addEventListener(
+  "click",
+  ()=>{
+
+    document.body.classList.toggle(
+      "senior"
+    );
+
+    const active=
+      document.body.classList.contains(
+        "senior"
+      );
+
+    localStorage.setItem(
+      "senior_mode",
+      active ? "1":"0"
+    );
+
+    updateSeniorButton();
+
+  }
+);
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+const darkBtn=
+  document.getElementById(
+    "darkBtn"
+  );
+
+
+function updateDarkButton(){
+
+  darkBtn.textContent=
+    document.body.classList.contains("dark")
+    ? "☀️ حالت روز"
+    : "🌙 حالت شب";
+
+}
+
+
+darkBtn.addEventListener(
+  "click",
+  ()=>{
+
+    document.body.classList.toggle(
+      "dark"
+    );
+
+    localStorage.setItem(
+      "dark_mode",
+      document.body.classList.contains("dark")
+      ? "1"
+      : "0"
+    );
+
+    updateDarkButton();
+
+  }
+);
+
+
+/* =========================
+   CLEAR ALL
+========================= */
+
+document.getElementById(
+  "clearAllBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    if(!confirm(
+      "⚠️ تمام شمارنده‌ها و آمار پاک شوند؟"
+    )){
+      return;
+    }
+
+    Object.keys(localStorage)
+      .filter(
+        key=>
+          key.startsWith("count_")
+      )
+      .forEach(
+        key=>
+          localStorage.removeItem(key)
+      );
+
+    totals={
+      totalSalavat:0,
+      totalSubhan:0,
+      totalHamd:0,
+      totalAllah:0
+    };
+
+    saveTotals();
+
+    count=0;
+
+    updateUI();
+
+    alert(
+      "✅ تمام آمار پاک شد."
+    );
+
+  }
+);
+
+
+/* =========================
+   MODAL
+========================= */
+
+const modal=
+  document.getElementById("modal");
+
+const modalTitle=
+  document.getElementById("modalTitle");
+
+const modalContent=
+  document.getElementById("modalContent");
+
+function openModal(title,content){
+
+  modalTitle.textContent=
+    title;
+
+  modalContent.innerHTML=
+    content;
+
+  modal.classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  modal.classList.remove(
+    "show"
+  );
+
+}
+
+
+document.getElementById(
+  "closeModal"
+).addEventListener(
+  "click",
+  closeModal
+);
+
+
+modal.addEventListener(
+  "click",
+  e=>{
+
+    if(e.target===modal){
+      closeModal();
+    }
+
+  }
+);
+
+
+/* =========================
+   MENU
+========================= */
+
+document.getElementById(
+  "quranBtn"
+).addEventListener(
+  "click",
+  ()=>{
+    openModal(
+      "📖 قرآن",
+      `
+      <div class="info">
+        بخش قرآن در نسخه بعدی اضافه می‌شود.
+        متن قرآن را از منبع دارای مجوز مناسب
+        وارد برنامه خواهیم کرد.
+      </div>
+      `
     );
   }
 );
 
+
+document.getElementById(
+  "prayerBtn"
+).addEventListener(
+  "click",
+  ()=>{
+    openModal(
+      "🧎 نماز",
+      `
+      <div class="info">
+        رکعت‌شمار نماز در مرحله بعد ساخته می‌شود.
+        <br>
+        هدف نهایی:
+        تشخیص رکعت، سجده، تشهد و پایان نماز.
+      </div>
+      `
+    );
+  }
+);
+
+
+document.getElementById(
+  "dhikrBtn"
+).addEventListener(
+  "click",
+  ()=>{
+    openModal(
+      "🤲 اذکار روزانه",
+      `
+      <div class="info">
+        اذکار صبح، شب، بعد از نماز و اذکار دلخواه
+        در نسخه بعدی اضافه می‌شوند.
+      </div>
+      `
+    );
+  }
+);
+
+
+document.getElementById(
+  "donateBtn"
+).addEventListener(
+  "click",
+  ()=>{
+    openModal(
+      "❤️ صدقه و کمک",
+      `
+      <div class="info">
+        <b>کمک به نیازمندان</b>
+        <br><br>
+        در این بخش فقط لینک‌های رسمی
+        سازمان‌ها و خیریه‌های معتبر قرار می‌گیرند.
+        <br><br>
+        ❤️ کمک به ایتام
+        <br>
+        🍞 اطعام
+        <br>
+        🏥 کمک درمان
+        <br>
+        🏠 کمک معیشتی
+        <br><br>
+        درگاه پرداخت هر سازمان باید
+        متعلق به همان سازمان یا منبع رسمی باشد.
+      </div>
+      `
+    );
+  }
+);
+
+
+/* =========================
+   CITY DEMO
+========================= */
+
+const cityData={
+
+  mashhad:{
+    fajr:"04:25",
+    dhuhr:"12:10",
+    maghrib:"19:20"
+  },
+
+  tehran:{
+    fajr:"04:15",
+    dhuhr:"12:08",
+    maghrib:"19:35"
+  },
+
+  qom:{
+    fajr:"04:18",
+    dhuhr:"12:08",
+    maghrib:"19:30"
+  },
+
+  tabriz:{
+    fajr:"04:35",
+    dhuhr:"12:35",
+    maghrib:"20:00"
+  },
+
+  isfahan:{
+    fajr:"04:25",
+    dhuhr:"12:15",
+    maghrib:"19:35"
+  },
+
+  shiraz:{
+    fajr:"04:30",
+    dhuhr:"12:15",
+    maghrib:"19:30"
+  },
+
+  maku:{
+    fajr:"04:40",
+    dhuhr:"12:35",
+    maghrib:"20:05"
+  },
+
+  other:{
+    fajr:"--:--",
+    dhuhr:"--:--",
+    maghrib:"--:--"
+  }
+
+};
+
+
+document.getElementById(
+  "citySelect"
+).addEventListener(
+  "change",
+  function(){
+
+    const data=
+      cityData[this.value] ||
+      cityData.other;
+
+    document.getElementById(
+      "fajr"
+    ).textContent=data.fajr;
+
+    document.getElementById(
+      "dhuhr"
+    ).textContent=data.dhuhr;
+
+    document.getElementById(
+      "maghrib"
+    ).textContent=data.maghrib;
+
+    localStorage.setItem(
+      "selected_city",
+      this.value
+    );
+
+  }
+);
+
+
+/* =========================
+   RESTORE SETTINGS
+========================= */
+
+const savedCity=
+  localStorage.getItem(
+    "selected_city"
+  );
+
+if(savedCity){
+
+  document.getElementById(
+    "citySelect"
+  ).value=savedCity;
+
+  document.getElementById(
+    "citySelect"
+  ).dispatchEvent(
+    new Event("change")
+  );
+
+}
+
+
 if(
-  localStorage.getItem("senior_mode")==="1"
+  localStorage.getItem(
+    "senior_mode"
+  )==="1"
 ){
 
   document.body.classList.add(
     "senior"
   );
 
-  document.getElementById(
-    "seniorBtn"
-  ).textContent=
-    "🧓 حالت سالمندان فعال است";
 }
+
 
 if(
-  localStorage.getItem("count_sound")==="0"
+  localStorage.getItem(
+    "dark_mode"
+  )==="1"
 ){
 
-  sound=false;
+  document.body.classList.add(
+    "dark"
+  );
 
-  soundBtn.textContent=
-    "🔇 صدای شمارش: خاموش";
 }
 
+
+updateSoundButton();
+updateAzanButton();
+updateSeniorButton();
+updateDarkButton();
+
 loadCount();
+
+
+/* =========================
+   FIRST USER INTERACTION
+   Unlock audio
+========================= */
+
+document.addEventListener(
+  "touchstart",
+  ()=>{
+    initAudio();
+
+    if(
+      audioContext &&
+      audioContext.state==="suspended"
+    ){
+      audioContext.resume();
+    }
+
+  },
+  {
+    once:true,
+    passive:true
+  }
+);
 
 </script>
 
