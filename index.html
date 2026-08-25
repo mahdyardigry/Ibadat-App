@@ -31,8 +31,7 @@ body{
 }
 
 .header{
-  background:
-    linear-gradient(145deg,#0e583d,#1d7957);
+  background:linear-gradient(145deg,#0e583d,#1d7957);
   color:white;
   border-radius:24px;
   padding:20px 15px;
@@ -80,6 +79,7 @@ button{
 button{
   cursor:pointer;
   font-weight:bold;
+  touch-action:manipulation;
 }
 
 .mainBtn{
@@ -97,10 +97,6 @@ button{
   color:#a11;
 }
 
-/* =========================
-   TASBIH
-========================= */
-
 .tasbihBox{
   text-align:center;
   padding-top:4px;
@@ -110,7 +106,7 @@ button{
   font-size:25px;
   font-weight:bold;
   color:#176b4d;
-  margin:4px 0 4px;
+  margin:4px 0;
 }
 
 .goal{
@@ -118,8 +114,6 @@ button{
   margin-bottom:8px;
   font-size:15px;
 }
-
-/* قاب اصلی تسبیح */
 
 .tasbih{
   position:relative;
@@ -131,8 +125,6 @@ button{
   -webkit-user-select:none;
 }
 
-/* نخ */
-
 .rope{
   position:absolute;
   inset:25px;
@@ -142,8 +134,6 @@ button{
     inset 0 0 0 2px rgba(255,255,255,.35),
     0 3px 8px rgba(80,50,20,.18);
 }
-
-/* حلقه کوچک بالای تسبیح */
 
 .ropeTop{
   position:absolute;
@@ -157,8 +147,6 @@ button{
   background:#f7eee0;
   z-index:1;
 }
-
-/* دانه ها */
 
 .bead{
   position:absolute;
@@ -199,8 +187,6 @@ button{
   z-index:5;
 }
 
-/* مهره ویژه */
-
 .markerBead{
   background:
     radial-gradient(
@@ -211,8 +197,6 @@ button{
       #563414
     );
 }
-
-/* نخ بین مهره ها */
 
 .bead::after{
   content:"";
@@ -226,8 +210,6 @@ button{
   transform:translateX(-50%);
   z-index:-1;
 }
-
-/* شمارنده مرکزی */
 
 .counterCenter{
   position:absolute;
@@ -332,7 +314,7 @@ button{
   font-size:13px;
 }
 
-/* حالت سالمندان */
+/* سالمندان */
 
 body.senior{
   font-size:20px;
@@ -383,7 +365,7 @@ body.senior .dhikr{
   font-size:30px;
 }
 
-/* حالت شب */
+/* شب */
 
 body.dark{
   background:#111815;
@@ -406,6 +388,11 @@ body.dark .secondary{
   color:white;
 }
 
+body.dark .danger{
+  background:#351d1d;
+  color:#ffb6b6;
+}
+
 body.dark .stat{
   background:#24302b;
 }
@@ -420,6 +407,61 @@ body.dark .count{
 
 body.dark .dhikr{
   color:#62c79e;
+}
+
+body.dark .goal,
+body.dark .instruction,
+body.dark .countLabel,
+body.dark .small,
+body.dark .footer{
+  color:#aab8b2;
+}
+
+@media(max-width:380px){
+
+  .app{
+    padding:8px;
+  }
+
+  .card{
+    padding:12px;
+    border-radius:18px;
+  }
+
+  .header{
+    border-radius:20px;
+    padding:17px 12px;
+  }
+
+  .header h1{
+    font-size:24px;
+  }
+
+  .tasbih{
+    width:94vw;
+    height:94vw;
+  }
+
+  .counterCenter{
+    width:125px;
+    height:125px;
+  }
+
+  .count{
+    font-size:46px;
+  }
+
+  .bead{
+    width:32px;
+    height:32px;
+    margin:-16px;
+  }
+
+  .bead.active{
+    width:41px;
+    height:41px;
+    margin:-20.5px;
+  }
 }
 </style>
 </head>
@@ -467,8 +509,10 @@ body.dark .dhikr{
 
     </select>
 
-    <div id="customBox"
-         style="display:none;margin-top:10px">
+    <div
+      id="customBox"
+      style="display:none;margin-top:10px"
+    >
 
       <input
         id="customName"
@@ -484,7 +528,6 @@ body.dark .dhikr{
     </div>
 
   </div>
-
 
   <!-- تسبیح -->
 
@@ -504,7 +547,6 @@ body.dark .dhikr{
         هدف: ۳۳
       </div>
 
-
       <div
         class="tasbih"
         id="tasbih">
@@ -520,7 +562,7 @@ body.dark .dhikr{
           <div
             class="count"
             id="count">
-            0
+            ۰
           </div>
 
           <div class="countLabel">
@@ -531,9 +573,8 @@ body.dark .dhikr{
 
       </div>
 
-
       <div class="instruction">
-        👆 روی دانه بکشید یا انگشت را روی نخ حرکت دهید
+        👆 روی دانه بزنید یا انگشت را روی تسبیح بکشید
       </div>
 
       <div
@@ -564,7 +605,6 @@ body.dark .dhikr{
     </div>
 
   </div>
-
 
   <!-- آمار -->
 
@@ -600,7 +640,6 @@ body.dark .dhikr{
 
   </div>
 
-
   <!-- سالمندان -->
 
   <div class="card">
@@ -616,7 +655,6 @@ body.dark .dhikr{
     </button>
 
   </div>
-
 
   <!-- تنظیمات -->
 
@@ -658,7 +696,6 @@ body.dark .dhikr{
 
   </div>
 
-
   <div class="footer">
     عبادت من — نسخه آزمایشی<br>
     اطلاعات شمارش روی همین گوشی ذخیره می‌شود.
@@ -666,14 +703,13 @@ body.dark .dhikr{
 
 </div>
 
-
 <script>
 
 /* =========================
    DATA
 ========================= */
 
-const dhikrData={
+const dhikrData = {
 
   subhan:{
     name:"سبحان‌الله",
@@ -712,61 +748,89 @@ const dhikrData={
    STATE
 ========================= */
 
-let selected="subhan";
-let count=0;
+let selected = "subhan";
 
-let sound=
-  localStorage.getItem("ibadat_sound")!=="0";
+let count = 0;
 
-let vibration=
-  localStorage.getItem("ibadat_vibration")!=="0";
+let sound =
+  localStorage.getItem("ibadat_sound") !== "0";
 
-let totals=JSON.parse(
-  localStorage.getItem("ibadat_totals") ||
-  '{"totalSalavat":0,"totalSubhan":0,"totalHamd":0,"totalAllah":0}'
-);
+let vibration =
+  localStorage.getItem("ibadat_vibration") !== "0";
+
+let totals;
+
+try{
+
+  totals = JSON.parse(
+    localStorage.getItem("ibadat_totals") ||
+    '{"totalSalavat":0,"totalSubhan":0,"totalHamd":0,"totalAllah":0}'
+  );
+
+}catch(e){
+
+  totals = {
+    totalSalavat:0,
+    totalSubhan:0,
+    totalHamd:0,
+    totalAllah:0
+  };
+
+}
 
 
 /* =========================
    ELEMENTS
 ========================= */
 
-const select=
+const select =
   document.getElementById("dhikrSelect");
 
-const customBox=
+const customBox =
   document.getElementById("customBox");
 
-const customName=
+const customName =
   document.getElementById("customName");
 
-const customLimit=
+const customLimit =
   document.getElementById("customLimit");
 
-const tasbih=
+const tasbih =
   document.getElementById("tasbih");
 
-const beads=
+const beads =
   document.getElementById("beads");
 
-const countEl=
+const countEl =
   document.getElementById("count");
 
-const currentDhikr=
+const currentDhikr =
   document.getElementById("currentDhikr");
 
-const limitText=
+const limitText =
   document.getElementById("limitText");
 
-const progressBar=
+const progressBar =
   document.getElementById("progressBar");
 
-const statusEl=
+const statusEl =
   document.getElementById("status");
+
+const soundBtn =
+  document.getElementById("soundBtn");
+
+const vibrateBtn =
+  document.getElementById("vibrateBtn");
+
+const seniorBtn =
+  document.getElementById("seniorBtn");
+
+const darkBtn =
+  document.getElementById("darkBtn");
 
 
 /* =========================
-   SAVE
+   STORAGE
 ========================= */
 
 function saveTotals(){
@@ -781,7 +845,7 @@ function saveTotals(){
 function saveCount(){
 
   localStorage.setItem(
-    "ibadat_count_"+selected,
+    "ibadat_count_" + selected,
     String(count)
   );
 
@@ -794,26 +858,26 @@ function saveCount(){
 
 function getConfig(){
 
-  if(selected==="custom"){
+  if(selected === "custom"){
 
-    let name=
+    let name =
       customName.value.trim();
 
     if(!name){
-      name="ذکر دلخواه";
+      name = "ذکر دلخواه";
     }
 
-    let limit=
-      parseInt(customLimit.value);
+    let limit =
+      parseInt(customLimit.value,10);
 
     if(
-      isNaN(limit) ||
-      limit<0
+      Number.isNaN(limit) ||
+      limit < 0
     ){
-      limit=0;
+      limit = 0;
     }
 
-    return{
+    return {
       name:name,
       limit:limit,
       stat:null
@@ -827,53 +891,52 @@ function getConfig(){
 
 
 /* =========================
-   TASBIH BEADS
+   BEADS
 ========================= */
 
-const BEAD_COUNT=33;
+const BEAD_COUNT = 33;
 
 function createBeads(){
 
-  beads.innerHTML="";
+  beads.innerHTML = "";
 
-  const total=BEAD_COUNT;
+  const center = 50;
+  const radius = 43;
 
-  const center=50;
-  const radius=43;
+  for(let i=0;i<BEAD_COUNT;i++){
 
-  for(let i=0;i<total;i++){
-
-    const bead=
+    const bead =
       document.createElement("div");
 
-    bead.className="bead";
+    bead.className = "bead";
 
     if(
-      i===8 ||
-      i===19 ||
-      i===30
+      i === 8 ||
+      i === 19 ||
+      i === 30
     ){
       bead.classList.add("markerBead");
     }
 
-    const angle=
-      (-90+(360/total)*i)
-      *Math.PI/180;
+    const angle =
+      (-90 + (360 / BEAD_COUNT) * i)
+      * Math.PI / 180;
 
-    const x=
-      center+
-      radius*Math.cos(angle);
+    const x =
+      center +
+      radius * Math.cos(angle);
 
-    const y=
-      center+
-      radius*Math.sin(angle);
+    const y =
+      center +
+      radius * Math.sin(angle);
 
-    bead.style.left=x+"%";
-    bead.style.top=y+"%";
+    bead.style.left = x + "%";
+    bead.style.top = y + "%";
 
-    bead.dataset.index=i;
+    bead.dataset.index = i;
 
     beads.appendChild(bead);
+
   }
 
   updateActiveBead();
@@ -883,23 +946,20 @@ function createBeads(){
 
 function updateActiveBead(){
 
-  const list=
+  const list =
     beads.querySelectorAll(".bead");
 
   list.forEach(
-    b=>b.classList.remove("active")
+    bead =>
+      bead.classList.remove("active")
   );
 
-  if(!list.length) return;
+  if(!list.length){
+    return;
+  }
 
-  /*
-    هر بار شمارش یک دانه جلو می‌رود.
-    برای ۳۳ دانه، بعد از رسیدن به انتها
-    دوباره روی دانه اول قرار می‌گیرد.
-  */
-
-  const index=
-    count%BEAD_COUNT;
+  const index =
+    count % BEAD_COUNT;
 
   list[index].classList.add("active");
 
@@ -912,17 +972,19 @@ function updateActiveBead(){
 
 function loadCount(){
 
-  count=parseInt(
-    localStorage.getItem(
-      "ibadat_count_"+selected
-    ) || "0"
-  );
+  count =
+    parseInt(
+      localStorage.getItem(
+        "ibadat_count_" + selected
+      ) || "0",
+      10
+    );
 
   if(
-    isNaN(count) ||
-    count<0
+    Number.isNaN(count) ||
+    count < 0
   ){
-    count=0;
+    count = 0;
   }
 
   updateUI();
@@ -931,70 +993,78 @@ function loadCount(){
 
 
 /* =========================
-   UI
+   PERSIAN NUMBERS
 ========================= */
 
 function toFa(n){
 
-  return String(n)
-    .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+  return String(n).replace(
+    /\d/g,
+    d => "۰۱۲۳۴۵۶۷۸۹"[d]
+  );
 
 }
 
 
+/* =========================
+   UI
+========================= */
+
 function updateUI(){
 
-  const config=
+  const config =
     getConfig();
 
-  countEl.textContent=
+  countEl.textContent =
     toFa(count);
 
-  currentDhikr.textContent=
+  currentDhikr.textContent =
     config.name;
 
-  if(config.limit>0){
+  if(config.limit > 0){
 
-    limitText.textContent=
-      "هدف: "+toFa(config.limit);
+    limitText.textContent =
+      "هدف: " +
+      toFa(config.limit);
 
-    const percent=
+    const percent =
       Math.min(
         100,
-        count/config.limit*100
+        (count / config.limit) * 100
       );
 
-    progressBar.style.width=
-      percent+"%";
+    progressBar.style.width =
+      percent + "%";
 
   }else{
 
-    limitText.textContent=
+    limitText.textContent =
       "هدف: نامحدود";
 
-    progressBar.style.width="0%";
+    progressBar.style.width =
+      "0%";
 
   }
 
   document.getElementById(
     "totalSalavat"
-  ).textContent=
-    toFa(totals.totalSalavat||0);
+  ).textContent =
+    toFa(totals.totalSalavat || 0);
 
   document.getElementById(
     "totalSubhan"
-  ).textContent=
-    toFa(totals.totalSubhan||0);
+  ).textContent =
+    toFa(totals.totalSubhan || 0);
 
   document.getElementById(
     "totalHamd"
-  ).textContent=
-    toFa(totals.totalHamd||0);
+  ).textContent =
+    toFa(totals.totalHamd || 0);
 
   document.getElementById(
     "totalAllah"
-  ).textContent=
-    toFa(totals.totalAllah||0);
+  ).textContent =
+    toFa(totals.totalAllah || 0);
 
   updateActiveBead();
 
@@ -1005,73 +1075,76 @@ function updateUI(){
    SOUND
 ========================= */
 
-let audioCtx=null;
+let audioCtx = null;
 
 function beep(){
 
-  if(!sound) return;
+  if(!sound){
+    return;
+  }
 
   try{
 
+    const AC =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(!AC){
+      return;
+    }
+
     if(!audioCtx){
-
-      const AC=
-        window.AudioContext ||
-        window.webkitAudioContext;
-
-      if(!AC) return;
-
-      audioCtx=new AC();
-
+      audioCtx = new AC();
     }
 
     if(
-      audioCtx.state==="suspended"
+      audioCtx.state === "suspended"
     ){
       audioCtx.resume();
     }
 
-    const osc=
+    const osc =
       audioCtx.createOscillator();
 
-    const gain=
+    const gain =
       audioCtx.createGain();
 
-    osc.type="sine";
+    const now =
+      audioCtx.currentTime;
+
+    osc.type = "sine";
 
     osc.frequency.setValueAtTime(
       620,
-      audioCtx.currentTime
+      now
     );
 
     osc.frequency.exponentialRampToValueAtTime(
       820,
-      audioCtx.currentTime+.06
+      now + .06
     );
 
     gain.gain.setValueAtTime(
       .0001,
-      audioCtx.currentTime
+      now
     );
 
     gain.gain.exponentialRampToValueAtTime(
       .055,
-      audioCtx.currentTime+.01
+      now + .01
     );
 
     gain.gain.exponentialRampToValueAtTime(
       .0001,
-      audioCtx.currentTime+.09
+      now + .09
     );
 
     osc.connect(gain);
     gain.connect(audioCtx.destination);
 
-    osc.start();
+    osc.start(now);
 
-    osc.stop(
-      audioCtx.currentTime+.1
-    );
+    osc.stop(now + .1);
 
   }catch(e){}
 
@@ -1086,62 +1159,12 @@ function vibrate(){
 
   if(
     vibration &&
-    navigator.vibrate
+    "vibrate" in navigator
   ){
 
-    navigator.vibrate(25);
-
-  }
-
-}
-
-
-/* =========================
-   INCREMENT
-========================= */
-
-function increment(){
-
-  const config=
-    getConfig();
-
-  if(
-    config.limit>0 &&
-    count>=config.limit
-  ){
-
-    completeMessage();
-
-    return;
-  }
-
-  count++;
-
-  saveCount();
-
-  if(config.stat){
-
-    totals[config.stat]=
-      (totals[config.stat]||0)+1;
-
-    saveTotals();
-
-  }
-
-  beep();
-  vibrate();
-
-  statusEl.textContent=
-    "ذکر شماره "+toFa(count);
-
-  updateUI();
-
-  if(
-    config.limit>0 &&
-    count===config.limit
-  ){
-
-    completeMessage();
+    try{
+      navigator.vibrate(25);
+    }catch(e){}
 
   }
 
@@ -1154,21 +1177,30 @@ function increment(){
 
 function completeMessage(){
 
-  const config=
+  const config =
     getConfig();
 
-  statusEl.textContent=
-    "✅ "+config.name+
+  statusEl.textContent =
+    "✅ " +
+    config.name +
     " کامل شد";
 
   if(
     vibration &&
-    navigator.vibrate
+    "vibrate" in navigator
   ){
 
-    navigator.vibrate([
-      100,70,100,70,180
-    ]);
+    try{
+
+      navigator.vibrate([
+        100,
+        70,
+        100,
+        70,
+        180
+      ]);
+
+    }catch(e){}
 
   }
 
@@ -1190,26 +1222,85 @@ function completeMessage(){
 
 
 /* =========================
+   INCREMENT
+========================= */
+
+function increment(){
+
+  const config =
+    getConfig();
+
+  if(
+    config.limit > 0 &&
+    count >= config.limit
+  ){
+
+    completeMessage();
+
+    return;
+  }
+
+  count++;
+
+  saveCount();
+
+  if(config.stat){
+
+    totals[config.stat] =
+      (totals[config.stat] || 0) + 1;
+
+    saveTotals();
+
+  }
+
+  beep();
+
+  vibrate();
+
+  statusEl.textContent =
+    "ذکر شماره " +
+    toFa(count);
+
+  updateUI();
+
+  if(
+    config.limit > 0 &&
+    count === config.limit
+  ){
+
+    completeMessage();
+
+  }
+
+}
+
+
+/* =========================
    DECREMENT
 ========================= */
 
 function decrement(){
 
-  if(count<=0){
+  if(count <= 0){
+
+    statusEl.textContent =
+      "شمارنده صفر است";
+
     return;
+
   }
 
-  const config=
+  const config =
     getConfig();
 
   count--;
 
   if(config.stat){
 
-    totals[config.stat]=
+    totals[config.stat] =
       Math.max(
         0,
-        (totals[config.stat]||0)-1
+        (totals[config.stat] || 0) - 1
       );
 
     saveTotals();
@@ -1218,7 +1309,7 @@ function decrement(){
 
   saveCount();
 
-  statusEl.textContent=
+  statusEl.textContent =
     "یک عدد کم شد";
 
   updateUI();
@@ -1232,44 +1323,46 @@ function decrement(){
 
 function resetCurrent(){
 
-  if(count<=0){
+  if(count <= 0){
 
-    statusEl.textContent=
+    statusEl.textContent =
       "شمارنده همین حالا صفر است";
 
     return;
 
   }
 
-  const ok=
+  const config =
+    getConfig();
+
+  const ok =
     confirm(
-      "شمارنده «"+
-      getConfig().name+
+      "شمارنده «" +
+      config.name +
       "» صفر شود؟"
     );
 
-  if(!ok) return;
-
-  const config=
-    getConfig();
+  if(!ok){
+    return;
+  }
 
   if(config.stat){
 
-    totals[config.stat]=
+    totals[config.stat] =
       Math.max(
         0,
-        (totals[config.stat]||0)-count
+        (totals[config.stat] || 0) - count
       );
 
     saveTotals();
 
   }
 
-  count=0;
+  count = 0;
 
   saveCount();
 
-  statusEl.textContent=
+  statusEl.textContent =
     "شمارنده صفر شد";
 
   updateUI();
@@ -1278,20 +1371,20 @@ function resetCurrent(){
 
 
 /* =========================
-   TOUCH / SWIPE
+   TOUCH
 ========================= */
 
-let startX=0;
-let startY=0;
-let moved=false;
+let startX = 0;
+let startY = 0;
+let pointerActive = false;
 
 tasbih.addEventListener(
   "pointerdown",
-  e=>{
+  function(e){
 
-    startX=e.clientX;
-    startY=e.clientY;
-    moved=false;
+    startX = e.clientX;
+    startY = e.clientY;
+    pointerActive = true;
 
     try{
       tasbih.setPointerCapture(
@@ -1302,59 +1395,46 @@ tasbih.addEventListener(
   }
 );
 
-
 tasbih.addEventListener(
-  "pointermove",
-  e=>{
+  "pointerup",
+  function(e){
 
-    const dx=
-      e.clientX-startX;
+    if(!pointerActive){
+      return;
+    }
 
-    const dy=
-      e.clientY-startY;
+    pointerActive = false;
 
-    if(
+    const dx =
+      e.clientX - startX;
+
+    const dy =
+      e.clientY - startY;
+
+    const distance =
       Math.sqrt(
-        dx*dx+dy*dy
-      )>20
-    ){
+        dx * dx +
+        dy * dy
+      );
 
-      moved=true;
+    if(distance >= 8){
+
+      increment();
+
+    }else{
+
+      increment();
 
     }
 
   }
 );
 
-
 tasbih.addEventListener(
-  "pointerup",
-  e=>{
+  "pointercancel",
+  function(){
 
-    const dx=
-      e.clientX-startX;
-
-    const dy=
-      e.clientY-startY;
-
-    const distance=
-      Math.sqrt(
-        dx*dx+dy*dy
-      );
-
-    /*
-      لمس یا کشیدن روی تسبیح
-      هر دو یک شمارش ایجاد می‌کنند.
-    */
-
-    if(
-      distance>12 ||
-      !moved
-    ){
-
-      increment();
-
-    }
+    pointerActive = false;
 
   }
 );
@@ -1366,17 +1446,17 @@ tasbih.addEventListener(
 
 select.addEventListener(
   "change",
-  ()=>{
+  function(){
 
-    selected=
+    selected =
       select.value;
 
-    customBox.style.display=
-      selected==="custom"
+    customBox.style.display =
+      selected === "custom"
       ? "block"
       : "none";
 
-    statusEl.textContent="";
+    statusEl.textContent = "";
 
     loadCount();
 
@@ -1384,14 +1464,26 @@ select.addEventListener(
 );
 
 
+/* =========================
+   CUSTOM
+========================= */
+
 customName.addEventListener(
   "input",
-  updateUI
+  function(){
+
+    updateUI();
+
+  }
 );
 
 customLimit.addEventListener(
   "input",
-  updateUI
+  function(){
+
+    updateUI();
+
+  }
 );
 
 
@@ -1406,7 +1498,6 @@ document
     decrement
   );
 
-
 document
   .getElementById("resetBtn")
   .addEventListener(
@@ -1415,66 +1506,65 @@ document
   );
 
 
-document
-  .getElementById("soundBtn")
-  .addEventListener(
-    "click",
-    function(){
+/* =========================
+   SOUND BUTTON
+========================= */
 
-      sound=!sound;
+soundBtn.addEventListener(
+  "click",
+  function(){
 
-      localStorage.setItem(
-        "ibadat_sound",
-        sound?"1":"0"
-      );
+    sound = !sound;
 
-      this.textContent=
-        sound
-        ? "🔊 صدای شمارش: روشن"
-        : "🔇 صدای شمارش: خاموش";
+    localStorage.setItem(
+      "ibadat_sound",
+      sound ? "1" : "0"
+    );
 
-      if(sound){
-        beep();
-      }
+    soundBtn.textContent =
+      sound
+      ? "🔊 صدای شمارش: روشن"
+      : "🔇 صدای شمارش: خاموش";
 
+    if(sound){
+      beep();
     }
-  );
+
+  }
+);
 
 
-document
-  .getElementById("vibrateBtn")
-  .addEventListener(
-    "click",
-    function(){
+/* =========================
+   VIBRATION BUTTON
+========================= */
 
-      vibration=!vibration;
+vibrateBtn.addEventListener(
+  "click",
+  function(){
 
-      localStorage.setItem(
-        "ibadat_vibration",
-        vibration?"1":"0"
-      );
+    vibration = !vibration;
 
-      this.textContent=
-        vibration
-        ? "📳 لرزش: روشن"
-        : "📴 لرزش: خاموش";
+    localStorage.setItem(
+      "ibadat_vibration",
+      vibration ? "1" : "0"
+    );
 
-      if(vibration){
-        vibrate();
-      }
+    vibrateBtn.textContent =
+      vibration
+      ? "📳 لرزش: روشن"
+      : "📴 لرزش: خاموش";
 
+    if(vibration){
+      vibrate();
     }
-  );
+
+  }
+);
 
 
 /* =========================
    SENIOR MODE
 ========================= */
-
-const seniorBtn=
-  document.getElementById(
-    "seniorBtn"
-  );
 
 function setSenior(active){
 
@@ -1483,22 +1573,21 @@ function setSenior(active){
     active
   );
 
-  seniorBtn.textContent=
+  seniorBtn.textContent =
     active
     ? "🧓 حالت سالمندان فعال است"
     : "🧓 فعال کردن حالت سالمندان";
 
   localStorage.setItem(
     "ibadat_senior",
-    active?"1":"0"
+    active ? "1" : "0"
   );
 
 }
 
-
 seniorBtn.addEventListener(
   "click",
-  ()=>{
+  function(){
 
     setSenior(
       !document.body.classList.contains(
@@ -1514,14 +1603,9 @@ seniorBtn.addEventListener(
    DARK MODE
 ========================= */
 
-const darkBtn=
-  document.getElementById(
-    "darkBtn"
-  );
-
 function updateDarkButton(){
 
-  darkBtn.textContent=
+  darkBtn.textContent =
     document.body.classList.contains("dark")
     ? "🌙 حالت شب: روشن"
     : "☀️ حالت روز";
@@ -1530,16 +1614,16 @@ function updateDarkButton(){
 
 darkBtn.addEventListener(
   "click",
-  ()=>{
+  function(){
 
-    const active=
+    const active =
       document.body.classList.toggle(
         "dark"
       );
 
     localStorage.setItem(
       "ibadat_dark",
-      active?"1":"0"
+      active ? "1" : "0"
     );
 
     updateDarkButton();
@@ -1556,28 +1640,31 @@ document
   .getElementById("clearAllBtn")
   .addEventListener(
     "click",
-    ()=>{
+    function(){
 
-      const ok=
+      const ok =
         confirm(
           "تمام شمارنده‌ها و آمار پاک شوند؟"
         );
 
-      if(!ok) return;
+      if(!ok){
+        return;
+      }
 
       localStorage.clear();
 
-      totals={
+      totals = {
         totalSalavat:0,
         totalSubhan:0,
         totalHamd:0,
         totalAllah:0
       };
 
-      count=0;
+      count = 0;
 
-      sound=true;
-      vibration=true;
+      sound = true;
+
+      vibration = true;
 
       localStorage.setItem(
         "ibadat_sound",
@@ -1589,20 +1676,17 @@ document
         "1"
       );
 
-      document.getElementById(
-        "soundBtn"
-      ).textContent=
+      soundBtn.textContent =
         "🔊 صدای شمارش: روشن";
 
-      document.getElementById(
-        "vibrateBtn"
-      ).textContent=
+      vibrateBtn.textContent =
         "📳 لرزش: روشن";
 
       saveTotals();
+
       saveCount();
 
-      statusEl.textContent=
+      statusEl.textContent =
         "همه آمار پاک شد";
 
       updateUI();
@@ -1620,7 +1704,7 @@ createBeads();
 if(
   localStorage.getItem(
     "ibadat_senior"
-  )==="1"
+  ) === "1"
 ){
 
   setSenior(true);
@@ -1630,7 +1714,7 @@ if(
 if(
   localStorage.getItem(
     "ibadat_dark"
-  )==="1"
+  ) === "1"
 ){
 
   document.body.classList.add(
@@ -1641,16 +1725,12 @@ if(
 
 updateDarkButton();
 
-document.getElementById(
-  "soundBtn"
-).textContent=
+soundBtn.textContent =
   sound
   ? "🔊 صدای شمارش: روشن"
   : "🔇 صدای شمارش: خاموش";
 
-document.getElementById(
-  "vibrateBtn"
-).textContent=
+vibrateBtn.textContent =
   vibration
   ? "📳 لرزش: روشن"
   : "📴 لرزش: خاموش";
